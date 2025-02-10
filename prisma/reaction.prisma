@@ -1,0 +1,11 @@
+model Reaction {
+    reaction_id Int      @id @default(autoincrement())
+    user_id     Int
+    post_id     Int
+    reaction    String
+    post        Post     @relation(fields: [post_id], references: [post_id], onDelete: Cascade, onUpdate: Cascade)
+    user        User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+    created_at  DateTime @default(now())
+
+    @@map("reactions")
+}

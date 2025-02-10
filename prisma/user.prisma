@@ -1,21 +1,30 @@
 model User {
-    user_id        Int       @id @default(autoincrement())
-    name           String    @db.VarChar(100)
-    email          String    @unique @db.VarChar(150)
-    password       String    @db.VarChar(255)
-    mobile         String    @unique @db.VarChar(15)
-    avatar         Json?     @db.JsonB
-    role_id        Int       @db.SmallInt
-    role           Role      @relation(fields: [user_id], references: [role_id], onDelete: Cascade, onUpdate: Cascade)
+    user_id        Int        @id @default(autoincrement())
+    name           String     @db.VarChar(100)
+    email          String     @unique @db.VarChar(150)
+    password       String     @db.VarChar(255)
+    mobile         String     @unique @db.VarChar(15)
+    avatar         Json?      @db.JsonB
+    role_id        Int        @db.SmallInt
+    role           Role       @relation(fields: [user_id], references: [role_id], onDelete: Cascade, onUpdate: Cascade)
     access_token   String?
     refresh_token  String?
-    email_verified Boolean   @default(false)
-    created_at     DateTime  @default(now())
-    updated_at     DateTime  @updatedAt
+    email_verified Boolean    @default(false)
+    date_joined    DateTime   @default(now())
+    updated_at     DateTime   @updatedAt
     post           Post[]
     profile        Profile?
     comments       Comment[]
+    likes          Like[]
+    reactions      Reaction[]
+    status         UserStatus @default(ACTIVE)
 
     // map to table
     @@map("users")
+}
+
+enum UserStatus {
+    ACTIVE
+    SUSPENDED
+    DELETED
 }

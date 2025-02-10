@@ -1,10 +1,12 @@
 model Comment {
-    comment_id Int    @id @default(autoincrement())
-    comment    String
+    comment_id Int      @id @default(autoincrement())
+    content    String
     user_id    Int
-    user       User   @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+    user       User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
     post_id    Int
-    post       Post   @relation(fields: [post_id], references: [post_id], onDelete: Cascade, onUpdate: Cascade)
+    post       Post     @relation(fields: [post_id], references: [post_id], onDelete: Cascade, onUpdate: Cascade)
+    parent_id  Int?
+    created_at DateTime @default(now())
 
     @@map("comments")
 }
