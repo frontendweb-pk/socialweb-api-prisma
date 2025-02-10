@@ -1,9 +1,13 @@
 import "dotenv/config";
 import express from "express";
 import type { Request, Response } from "express";
+import cors from "cors";
 import compression from "compression";
 import helmet from "helmet";
 import path from "path";
+import morgan from "morgan";
+import { sessionStore } from "./lib/session";
+import { authRoute } from "./routes/auth";
 
 // Create a new express application instance
 const app = express();
@@ -15,7 +19,9 @@ app.set("views", path.resolve(__dirname, "views"));
 // public directory
 app.use(express.static("public"));
 
-// middlewares
+// morgan
+app.use(morgan("dev"));
+app.use(cors());
 
 // Secure express apps by setting HTTP response headers
 app.use(helmet());
@@ -29,11 +35,15 @@ function shouldCompress(req: Request, res: Response) {
   return compression.filter(req, res); // fallback to standard filter function
 }
 
-// production setting
+// session
+app.use(sessionStore);
 
 // setting
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
+
+// routes
+app.use("/api/auth", authRoute);
 
 // The port the express app will listen on
 const PORT = process.env.PORT || 3000;

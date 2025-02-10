@@ -1,0 +1,1 @@
+{"version":3,"file":"seed.js","sourceRoot":"","sources":["../../prisma/seed.ts"],"names":[],"mappings":";;;;;;;;;;;AAEA,MAAM,KAAK,GAAG,CAAC,MAAM,EAAE,OAAO,EAAE,YAAY,EAAE,OAAO,EAAE,QAAQ,EAAE,SAAS,CAAC,CAAC,GAAG,CAC7E,CAAC,IAAI,EAAE,EAAE,CAAC,CAAC,EAAE,SAAS,EAAE,IAAI,EAAE,CAAC,CAChC,CAAC;AAEF,SAAe,IAAI;;QACjB,QAAQ;IACV,CAAC;CAAA"}

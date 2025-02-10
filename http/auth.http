@@ -1,0 +1,10 @@
+### Create new user
+POST http://localhost:3000/api/auth/signup
+Content-Type: application/json
+
+{
+    "name":"Pradeep Kumar",
+    "email":"pradeep.kumar5@rsystems.com",
+    "password":"Admin$123@",
+    "mobile":"7291893484"
+}
