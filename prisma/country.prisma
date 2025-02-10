@@ -1,0 +1,9 @@
+model Country {
+    count_id   Int      @id @default(autoincrement())
+    country    String   @unique @db.VarChar(100)
+    active     Boolean  @default(true)
+    state      State[]
+    updated_at DateTime @updatedAt
+
+    @@map("countries")
+}

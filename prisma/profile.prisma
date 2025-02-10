@@ -1,0 +1,31 @@
+model Profile {
+    profile_id           Int            @id @default(autoincrement())
+    bio                  String?
+    dob                  DateTime       @db.Date
+    qualification        Qualifiation   @default(HighSchool)
+    institute_name       String
+    qualification_custom String?        @db.VarChar(100)
+    company              String?
+    exp                  Decimal        @default(00.0) @db.Decimal(3, 1)
+    resume               String?
+    salary               Decimal        @default(0.00) @db.Decimal(10, 2)
+    github_username      String?
+    skill                ProfileSkill[]
+    user_id              Int            @unique @db.SmallInt
+    user                 User           @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+    address_id           Int            @unique
+    address              Address        @relation(fields: [address_id], references: [address_id], onDelete: Cascade, onUpdate: Cascade)
+    created_at           DateTime       @default(now())
+    updated_at           DateTime       @updatedAt
+
+    @@map("profiles")
+}
+
+enum Qualifiation {
+    HighSchool
+    Metric
+    Graduation
+    Master
+    Phd
+    other
+}

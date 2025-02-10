@@ -1,0 +1,11 @@
+model City {
+    city_id    Int      @id @default(autoincrement())
+    city       String   @unique @db.VarChar(100)
+    state_id   Int      @db.SmallInt
+    state      State    @relation(fields: [city_id], references: [state_id], onDelete: Cascade, onUpdate: Cascade)
+    updated_at DateTime @updatedAt
+
+    address Address[]
+
+    @@map("cities")
+}

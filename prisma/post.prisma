@@ -1,0 +1,25 @@
+model Post {
+    post_id    Int        @id @default(autoincrement())
+    content    String
+    media      Json?      @db.JsonB
+    code       Json?      @db.JsonB
+    tags       PostTags[]
+    status     PostStatus @default(DRAFT)
+    is_publish Boolean    @default(false)
+
+    user_id  Int
+    user     User      @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+    views    Int       @default(0)
+    rating   Decimal   @default(0.0) @db.Decimal(2, 1)
+    share    Int       @default(0)
+    comments Comment[]
+
+    @@map("posts")
+}
+
+enum PostStatus {
+    DRAFT
+    PUBLISH
+    PRIVATE
+    FRIENDS
+}

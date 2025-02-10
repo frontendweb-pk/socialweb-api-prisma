@@ -1,0 +1,17 @@
+model Skill {
+    skill_id    Int            @id @default(autoincrement()) // 1
+    name        String // html
+    proficiency Proficiency    @default(BEGINER)
+    created_at  DateTime       @default(now()) //
+    updated_at  DateTime       @updatedAt //
+    profile     ProfileSkill[]
+
+    @@map("skills")
+}
+
+enum Proficiency {
+    BEGINER
+    INTERMEDIATE
+    ADVANED
+    EXPERT
+}

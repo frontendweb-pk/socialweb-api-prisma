@@ -1,0 +1,10 @@
+model ProfileSkill {
+    profile_id Int
+    profile    Profile @relation(fields: [profile_id], references: [profile_id], onDelete: Cascade, onUpdate: Cascade)
+
+    skill_id Int
+    skill    Skill @relation(fields: [skill_id], references: [skill_id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@id([profile_id, skill_id])
+    @@map("profile_skills")
+}

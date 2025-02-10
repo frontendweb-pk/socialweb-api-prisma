@@ -1,0 +1,21 @@
+model Role {
+    role_id    Int      @id @default(autoincrement())
+    role_name  RoleEnum @default(USER)
+    active     Boolean  @default(true)
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    // relation
+    user User[]
+
+    @@map("roles")
+}
+
+enum RoleEnum {
+    USER
+    ADMIN
+    SUPERADMIN
+    STAFF
+    VENDOR
+    AUDITOR
+}
