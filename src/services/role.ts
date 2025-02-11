@@ -1,4 +1,4 @@
-import { Role } from "@prisma/client";
+import { BadRequestError } from "../lib/errors";
 import prisma from "../lib/prisma-client";
 
 class RoleService {
@@ -6,7 +6,19 @@ class RoleService {
 
   private static _instance: RoleService;
 
-  // get all roles
+  // Make the instance available
+  public static getInstance(): RoleService {
+    if (!RoleService._instance) {
+      RoleService._instance = new RoleService();
+    }
+    return RoleService._instance;
+  }
+
+  /**
+   * Get all roles
+   * access by role : admin
+   * @returns
+   */
   async getRoles() {
     const roles = await prisma.role.findMany({
       select: {
@@ -19,7 +31,33 @@ class RoleService {
     return roles;
   }
 
+  // check role exists
+  async roleExist(role_name: string) {
+    const role = await prisma.role.findUnique({
+      where: { role_name },
+    });
+
+    if (role) throw new BadRequestError("Role already existed");
+    return role;
+  }
+
   // create role
+  async createRole({
+    role_name,
+    permissions = [],
+  }: {
+    role_name: string;
+    permissions: string[];
+  }) {
+    await this.roleExist(role_name);
+
+    role_name = role_name.toLowerCase();
+    const role = await prisma.role.create({
+      data: { role_name, permissions },
+    });
+
+    return role;
+  }
 
   // update role
   async updatePermissions({
@@ -60,4 +98,11 @@ class RoleService {
   }
 
   // Get role permission
+  async getRolePermissions(role_id: number) {
+    const role = await prisma.role.findUnique({ where: { role_id } });
+    return role?.permissions;
+  }
 }
+
+const roleService = RoleService.getInstance();
+export { roleService };
