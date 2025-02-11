@@ -12,6 +12,8 @@ const path_1 = __importDefault(require("path"));
 const morgan_1 = __importDefault(require("morgan"));
 const session_1 = require("./lib/session");
 const auth_1 = require("./routes/auth");
+const user_1 = require("./routes/user");
+const error_handler_1 = require("./middleware/error-handler");
 // Create a new express application instance
 const app = (0, express_1.default)();
 // configuration
@@ -39,6 +41,8 @@ app.use(express_1.default.json({ limit: "1mb" }));
 app.use(express_1.default.urlencoded({ extended: true }));
 // routes
 app.use("/api/auth", auth_1.authRoute);
+app.use("/api/user", user_1.userRoute);
+app.use(error_handler_1.errorHandler);
 // The port the express app will listen on
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
