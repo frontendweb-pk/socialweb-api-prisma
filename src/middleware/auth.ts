@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { AuthError } from "../lib/errors";
 import { logger } from "../lib/logger";
 
-export function isAuth(req: Request, res: Response, next: NextFunction) {
+export function auth(req: Request, res: Response, next: NextFunction) {
   const session = req.session.user;
   try {
     if (!session) {

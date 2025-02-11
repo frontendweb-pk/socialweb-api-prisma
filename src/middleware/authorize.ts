@@ -2,16 +2,21 @@ import { Request, Response, NextFunction } from "express";
 import { userService } from "../services/user";
 import { RoleEnum } from "@prisma/client";
 import { AuthError } from "../lib/errors";
+import { isSuperAdmin } from "./is-super-admin";
 
 export function authorize(
   permissions: string[] | string,
-  requiredRole: RoleEnum
+  requiredRole: RoleEnum[]
 ) {
   return async function cb(req: Request, res: Response, next: NextFunction) {
     try {
       const user = req.session.user;
       const userRole = await userService.getLoggedInRole(user.user_id);
-      if (userRole?.role_name !== requiredRole) {
+
+      // If the user is a super admin, allow access to all routes
+      if (isSuperAdmin(userRole?.role_name!)) next();
+
+      if (requiredRole.includes(userRole?.role_name!)) {
         throw new AuthError(
           "You ton't have the necessary role to access this resource!"
         );
