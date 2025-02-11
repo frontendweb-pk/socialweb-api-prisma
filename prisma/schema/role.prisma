@@ -11,13 +11,3 @@ model Role {
 
     @@map("roles")
 }
-
-enum RoleEnum {
-    USER
-    ADMIN
-    SUPERADMIN
-    STAFF
-    VENDOR
-    AUDITOR
-    MODERATOR
-}

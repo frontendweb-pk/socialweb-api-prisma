@@ -6,7 +6,7 @@ model User {
     mobile         String           @unique @db.VarChar(15)
     avatar         Json?            @db.JsonB
     role_id        Int              @default(2) @db.SmallInt
-    role           Role             @relation(fields: [user_id], references: [role_id], onDelete: Cascade, onUpdate: Cascade)
+    role           Role             @relation(fields: [role_id], references: [role_id], onDelete: Cascade, onUpdate: Cascade)
     access_token   String?
     refresh_token  String?
     email_verified Boolean          @default(false)

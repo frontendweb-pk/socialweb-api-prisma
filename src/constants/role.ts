@@ -1,6 +1,6 @@
 // src/constants/roles.ts
 
-import { RoleEnum } from "@prisma/client"; // Assuming you have a RoleEnum in Prisma
+import { RoleEnum } from "../utils/enum";
 import {
   UserPermissions,
   PostPermissions,

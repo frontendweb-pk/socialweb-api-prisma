@@ -4,12 +4,22 @@ import { body } from "express-validator";
 import { regex } from "../lib/regex";
 import { BadRequestError } from "../lib/errors";
 import { requestValidator } from "../middleware/request-validator";
+import prisma from "../lib/prisma-client";
 
 const route: Router = express.Router();
 
 const signupSchema = [
   body("name", "Name is required!").notEmpty(),
-  body("email", "Email is required").notEmpty().isEmail(),
+  body("email", "Email is required")
+    .notEmpty()
+    .isEmail()
+    .custom(async (email) => {
+      const isMobile = await prisma.user.findUnique({
+        where: { email },
+      });
+      if (isMobile) throw new BadRequestError("Email already existed!");
+      return true;
+    }),
   body("password", "Password is required")
     .notEmpty()
     .custom((value) => {
@@ -21,13 +31,16 @@ const signupSchema = [
       return true;
     }),
   body("mobile", "Mobile is required!")
-    .notEmpty()
-    .custom((value) => {
-      const valid = regex.mobile.test(value);
-      if (!valid)
-        throw new BadRequestError(
-          "Mobile number must be a valid Indian mobile number starting with 6-9 and followed by 9 digits."
-        );
+    .isLength({ min: 10, max: 10 })
+    .matches(regex.mobile)
+    .withMessage(
+      "Mobile number must be a valid Indian mobile number starting with 6-9 and followed by 9 digits."
+    )
+    .custom(async (value) => {
+      const isMobile = await prisma.user.findUnique({
+        where: { mobile: value },
+      });
+      if (isMobile) throw new BadRequestError("Mobile already existed!");
       return true;
     }),
 ];

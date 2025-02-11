@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import { userService } from "../services/user";
-import { RoleEnum } from "@prisma/client";
+
 import { AuthError } from "../lib/errors";
 import { isSuperAdmin } from "./is-super-admin";
+import { RoleEnum } from "../utils/enum";
 
 export function authorize(
   permissions: string[] | string,
