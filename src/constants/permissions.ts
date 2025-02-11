@@ -17,6 +17,7 @@ export const PostPermissions = {
 } as const;
 
 export const MessagePermissions = {
+  CREATE: "message:create",
   SEND: "message:send",
   READ: "message:read",
   DELETE: "message:delete",
