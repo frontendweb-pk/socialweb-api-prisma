@@ -1,0 +1,9 @@
+model UserPrmissions {
+    permission_id Int      @id @default(autoincrement())
+    permissions   String[]
+
+    user_id Int  @db.SmallInt
+    user    User @relation(fields: [user_id], references: [user_id])
+
+    @@map("user_permissions")
+}

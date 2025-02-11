@@ -1,8 +1,9 @@
 export const UserPermissions = {
   READ: "user:read",
+  CREATE: "user:create",
   UPDATE: "user:update",
   DELETE: "user:delete",
-  CREATE: "user:create",
+  ALL: "user:all", // Admin-level permission
   MANAGE: "user:manage", // Admin-level permission
   BAN: "user:ban", // Admin-level permission
 } as const;
