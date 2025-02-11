@@ -7,8 +7,8 @@ import helmet from "helmet";
 import path from "path";
 import morgan from "morgan";
 import { sessionStore } from "./lib/session";
-import { authRoute } from "./routes/auth";
-import { userRoute } from "./routes/user";
+import { authRouter } from "./routes/auth";
+import { userRouter } from "./routes/user";
 import { errorHandler } from "./middleware/error-handler";
 import { limiter } from "./lib/rate-limiter";
 import { roleRouter } from "./routes/role";
@@ -57,8 +57,8 @@ app.use(express.urlencoded({ extended: true }));
 // Define your routes
 app.use("/api/role", roleRouter);
 app.use("/api/permission", permissionRouter);
-app.use("/api/auth", authRoute);
-app.use("/api/user", userRoute);
+app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
 
 // Error handling middleware (this must always be last)
 app.use(errorHandler);

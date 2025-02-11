@@ -52,3 +52,23 @@ export const createPermission = async (
     next(error);
   }
 };
+
+export const deletePermission = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { permission_id } = req.params;
+
+  try {
+    const isPermission = await prisma.permission.delete({
+      where: { permission_id: +permission_id },
+    });
+
+    res.status(201).json({
+      permission_id,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -6,7 +6,7 @@ import { BadRequestError } from "../lib/errors";
 import { requestValidator } from "../middleware/request-validator";
 import prisma from "../lib/prisma-client";
 
-const route: Router = express.Router();
+const router: Router = express.Router();
 
 const signupSchema = [
   body("name", "Name is required!").notEmpty(),
@@ -45,7 +45,7 @@ const signupSchema = [
     }),
 ];
 
-route.post(
+router.post(
   "/",
   [
     body("email", "Email is required").notEmpty().isEmail(),
@@ -63,5 +63,5 @@ route.post(
   requestValidator,
   signIn
 );
-route.post("/signup", signupSchema, requestValidator, signUp);
-export { route as authRoute };
+router.post("/signup", signupSchema, requestValidator, signUp);
+export { router as authRouter };

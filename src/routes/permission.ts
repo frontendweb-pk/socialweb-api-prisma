@@ -1,12 +1,21 @@
 import { Router } from "express";
-import { createPermission, getAllPermission } from "../controllers/permission";
+import {
+  createPermission,
+  deletePermission,
+  getAllPermission,
+} from "../controllers/permission";
 import { auth } from "../middleware/auth";
 import { authorize } from "../middleware/authorize";
 
 const router: Router = Router();
 
-router.get("/", auth, authorize(), getAllPermission);
-
-router.post("/", auth, authorize(), createPermission);
+router.get("/", auth, authorize("all:permission"), getAllPermission);
+router.post("/", auth, authorize("all:permission"), createPermission);
+router.delete(
+  "/:permission_id",
+  auth,
+  authorize("all:permission"),
+  deletePermission
+);
 
 export { router as permissionRouter };

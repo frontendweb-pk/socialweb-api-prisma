@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { userService } from "../services/user";
+import prisma from "../lib/prisma-client";
+import { Password } from "../lib/password";
 
 /**
  * Get all users for admin
@@ -35,6 +37,20 @@ export const loggedInUser = async (
     const user_id = req.session.user.user_id;
     const user = await userService.getLoggedInUser(user_id);
     res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const changePassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { password } = req.body;
+    await userService.updatePassword(req.session.user.user_id, password);
+    res.status(200).json({ user_id: req.session.user.user_id });
   } catch (error) {
     next(error);
   }

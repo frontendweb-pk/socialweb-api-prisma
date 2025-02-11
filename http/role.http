@@ -11,7 +11,9 @@ Content-Type: application/json
 
 {
     "role_name":"admin",
-    "permissions":[]
+    "permissions":[
+         
+    ]
 }
 
 ### Update role

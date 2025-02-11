@@ -1,22 +1,45 @@
 import { Router } from "express";
-import { getUsers, loggedInUser } from "../controllers/user";
+import { changePassword, getUsers, loggedInUser } from "../controllers/user";
 import { auth } from "../middleware/auth";
 import { authorize } from "../middleware/authorize";
-import { RoleEnum } from "../utils/enum";
 import { UserPermissions } from "../constants/permissions";
+import { body } from "express-validator";
+import { BadRequestError } from "../lib/errors";
+import { regex } from "../lib/regex";
+import { requestValidator } from "../middleware/request-validator";
 
-const route: Router = Router();
+const router: Router = Router();
 
 /**
  * Get all user
  * Access: Admin, SuperAdmin
  *
  */
-route.get("/all", auth, authorize([]), getUsers);
+router.get("/all", auth, authorize("all:permission"), getUsers);
 
 /**
  * Get logged in user
  * Access: user
  */
-route.get("/me", auth, authorize(UserPermissions.READ), loggedInUser);
-export { route as userRoute };
+router.get("/me", auth, authorize(UserPermissions.READ), loggedInUser);
+
+router.put(
+  "/change-password",
+  auth,
+  authorize("user:change_password"),
+  [
+    body("password", "Password is required")
+      .notEmpty()
+      .custom((value) => {
+        const valid = regex.password.test(value);
+        if (!valid)
+          throw new BadRequestError(
+            "Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a digit, and a special character."
+          );
+        return true;
+      }),
+  ],
+  requestValidator,
+  changePassword
+);
+export { router as userRouter };

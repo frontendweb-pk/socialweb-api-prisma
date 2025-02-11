@@ -77,7 +77,7 @@ export const login = async ({
       mobile: true,
       avatar: true,
       email_verified: true,
-
+      permissions: true,
       role: {
         select: {
           role_id: true,

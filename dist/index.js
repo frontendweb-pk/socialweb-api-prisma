@@ -16,6 +16,7 @@ const user_1 = require("./routes/user");
 const error_handler_1 = require("./middleware/error-handler");
 const rate_limiter_1 = require("./lib/rate-limiter");
 const role_1 = require("./routes/role");
+const permission_1 = require("./routes/permission");
 // Create a new express application instance
 const app = (0, express_1.default)();
 // Configuration for view engine
@@ -47,8 +48,9 @@ app.use(express_1.default.json({ limit: "1mb" })); // Limit the request body siz
 app.use(express_1.default.urlencoded({ extended: true }));
 // Define your routes
 app.use("/api/role", role_1.roleRouter);
-app.use("/api/auth", auth_1.authRoute);
-app.use("/api/user", user_1.userRoute);
+app.use("/api/permission", permission_1.permissionRouter);
+app.use("/api/auth", auth_1.authRouter);
+app.use("/api/user", user_1.userRouter);
 // Error handling middleware (this must always be last)
 app.use(error_handler_1.errorHandler);
 // Start the server

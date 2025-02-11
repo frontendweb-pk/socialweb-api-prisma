@@ -10,3 +10,32 @@
 {"level":"info","message":1}
 {"level":"warn","message":"Unauthorized access! attempt at /api/user/me from IP: ::1"}
 {"level":"warn","message":"Unauthorized access! attempt at /api/user/me from IP: ::1"}
+{"level":"warn","message":"Unauthorized access! attempt at /api/role/all from IP: ::1"}
+{"level":"warn","message":"Unauthorized access! attempt at /api/role/all from IP: ::1"}
+{"level":"warn","message":"Unauthorized access! attempt at /api/role/all from IP: ::1"}
+{"level":"warn","message":"Unauthorized access! attempt at /api/role/all from IP: ::ffff:127.0.0.1"}
+{"level":"warn","message":"Unauthorized access! attempt at /api/role/all from IP: ::ffff:127.0.0.1"}
+{"level":"warn","message":"Unauthorized access! attempt at /api/role/all from IP: ::ffff:127.0.0.1"}
+{"level":"info","message":{}}
+{"level":"info","message":1}
+{"level":"info","message":{}}
+{"level":"info","message":1}
+{"level":"info","message":{}}
+{"level":"info","message":1}
+{"level":"info","message":{}}
+{"level":"info","message":1}
+{"level":"info","message":{}}
+{"level":"info","message":1}
+{"level":"info","message":{}}
+{"level":"info","message":1}
+{"level":"warn","message":"Unauthorized access! attempt at /api/role/all from IP: ::ffff:127.0.0.1"}
+{"level":"warn","message":"Unauthorized access! attempt at /api/role/all from IP: ::1"}
+{"level":"info","message":{}}
+{"level":"info","message":1}
+{"level":"info","message":{}}
+{"level":"info","message":1}
+{"level":"info","message":{}}
+{"level":"info","message":1}
+{"level":"info","message":{}}
+{"level":"info","message":1}
+{"level":"warn","message":"Unauthorized access! attempt at /api/role/1 from IP: ::ffff:127.0.0.1"}
