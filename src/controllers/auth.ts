@@ -5,8 +5,10 @@ declare module "express-session" {
   interface Session {
     user: {
       email: string;
-      role: string;
       user_id: number;
+      role_id: number;
+      role_name: string;
+      is_authenticated: boolean;
     };
   }
 }
@@ -51,7 +53,9 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = {
       email: user.email,
       user_id: user.user_id,
-      role: user.role.role_name as string,
+      role_id: user.role.role_id,
+      role_name: user.role.role_name as string,
+      is_authenticated: true,
     };
 
     res.status(200).json(user);
