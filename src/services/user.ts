@@ -1,4 +1,6 @@
+import { UserPrmissions } from "@prisma/client";
 import prisma from "../lib/prisma-client";
+import { BadRequestError } from "../lib/errors";
 
 class UserService {
   // Private constructor to prevent multiple instances
@@ -51,6 +53,12 @@ class UserService {
         status: true,
         user_id: true,
         role: { select: { role_id: true, role_name: true, permissions: true } },
+        permissions: {
+          select: {
+            permission: true,
+            permission_id: true,
+          },
+        },
       },
     });
 
@@ -60,6 +68,11 @@ class UserService {
   async getLoggedInRole(user_id: number) {
     const user = await this.getLoggedInUser(user_id);
     return user?.role;
+  }
+
+  async getUserPermission(user_id: number) {
+    const user = await this.getLoggedInUser(user_id);
+    return user?.permissions.map((prem) => prem.permission.permission);
   }
 }
 

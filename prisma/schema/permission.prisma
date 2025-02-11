@@ -1,0 +1,9 @@
+model Permission {
+    permission_id Int    @id @default(autoincrement())
+    permission    String @unique @db.VarChar(100) // e.g., "user:read", "post:create", etc.
+
+    // Relation to users
+    users UserPrmissions[]
+
+    @@map("permissions")
+}

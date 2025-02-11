@@ -1,9 +1,10 @@
 model UserPrmissions {
-    permission_id Int      @id @default(autoincrement())
-    permissions   String[] @db.VarChar(100)
-
     user_id Int  @db.SmallInt
     user    User @relation(fields: [user_id], references: [user_id])
 
+    permission_id Int        @db.SmallInt
+    permission    Permission @relation(fields: [permission_id], references: [permission_id])
+
+    @@id([user_id, permission_id]) // Composite primary key (user_id + permission_id)
     @@map("user_permissions")
 }

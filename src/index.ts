@@ -12,6 +12,7 @@ import { userRoute } from "./routes/user";
 import { errorHandler } from "./middleware/error-handler";
 import { limiter } from "./lib/rate-limiter";
 import { roleRouter } from "./routes/role";
+import { permissionRouter } from "./routes/permission";
 
 // Create a new express application instance
 const app = express();
@@ -55,6 +56,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Define your routes
 app.use("/api/role", roleRouter);
+app.use("/api/permission", permissionRouter);
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 
