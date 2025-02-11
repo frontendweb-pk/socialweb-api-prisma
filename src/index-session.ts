@@ -1,11 +1,12 @@
 import "dotenv/config";
 import express from "express";
-import type { NextFunction, Request, Response } from "express";
+import type { Request, Response } from "express";
 import cors from "cors";
 import compression from "compression";
 import helmet from "helmet";
 import path from "path";
 import morgan from "morgan";
+import { sessionStore } from "./lib/session";
 import { authRouter } from "./routes/auth";
 import { userRouter } from "./routes/user";
 import { errorHandler } from "./middleware/error-handler";
@@ -24,12 +25,7 @@ app.set("views", path.resolve(__dirname, "views"));
 app.use(express.static("public"));
 
 // Request logging with morgan
-if (process.env.NODE_ENV === "development") {
-  app.use((req: Request, res: Response, next: NextFunction) => {
-    morgan("dev");
-    next();
-  });
-}
+app.use(morgan("dev"));
 
 // Enable CORS (must come before rate limiting and other security middlewares)
 app.use(cors());
@@ -50,6 +46,9 @@ function shouldCompress(req: Request, res: Response) {
   }
   return compression.filter(req, res); // Fallback to standard filter function
 }
+
+// Session middleware (ensure that sessions are available to all subsequent routes)
+app.use(sessionStore);
 
 // Body parsers (for handling JSON and URL-encoded data)
 app.use(express.json({ limit: "1mb" })); // Limit the request body size to 1MB

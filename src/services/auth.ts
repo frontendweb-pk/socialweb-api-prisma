@@ -78,6 +78,8 @@ export const login = async ({
       avatar: true,
       email_verified: true,
       permissions: true,
+      access_token: true,
+      refresh_token: true,
       role: {
         select: {
           role_id: true,

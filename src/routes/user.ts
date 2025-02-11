@@ -16,13 +16,11 @@ const router: Router = Router();
  *
  */
 router.get("/all", auth, authorize("all:permission"), getUsers);
-
 /**
  * Get logged in user
  * Access: user
  */
 router.get("/me", auth, authorize(UserPermissions.READ), loggedInUser);
-
 router.put(
   "/change-password",
   auth,
