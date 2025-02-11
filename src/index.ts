@@ -8,6 +8,8 @@ import path from "path";
 import morgan from "morgan";
 import { sessionStore } from "./lib/session";
 import { authRoute } from "./routes/auth";
+import { userRoute } from "./routes/user";
+import { errorHandler } from "./middleware/error-handler";
 
 // Create a new express application instance
 const app = express();
@@ -44,6 +46,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
+
+app.use(errorHandler);
 
 // The port the express app will listen on
 const PORT = process.env.PORT || 3000;
