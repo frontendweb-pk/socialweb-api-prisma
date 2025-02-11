@@ -1,15 +1,8 @@
 import session from "express-session";
 import express from "express";
-import { createClient } from "redis";
-import { RedisStore } from "connect-redis";
+
 import { config } from "../config";
-
-const redisClient = createClient().connect().catch(console.log);
-
-let redisStore = new RedisStore({
-  client: redisClient,
-  prefix: "socialweb:",
-}); // Adjust Redis connection as needed
+import { redisStore } from "./redis";
 
 export const sessionStore: express.RequestHandler = session({
   store: redisStore,

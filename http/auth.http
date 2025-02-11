@@ -8,3 +8,13 @@ Content-Type: application/json
     "password":"Admin$123@",
     "mobile":"7291893484"
 }
+
+
+### sign-in
+POST http://localhost:3000/api/auth 
+Content-Type: application/json
+
+{
+"email":"pradeep.kumar5@rsystems.com",
+    "password":"Admin$123@"
+}
