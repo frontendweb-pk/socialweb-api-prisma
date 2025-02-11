@@ -1,4 +1,4 @@
-import { BadRequestError } from "../lib/errors";
+import { BadRequestError, NotFoundError } from "../lib/errors";
 import prisma from "../lib/prisma-client";
 
 class RoleService {
@@ -6,7 +6,10 @@ class RoleService {
 
   private static _instance: RoleService;
 
-  // Make the instance available
+  /**
+   * Get the singleton instance of RoleService.
+   * @returns {RoleService} The instance of RoleService.
+   */
   public static getInstance(): RoleService {
     if (!RoleService._instance) {
       RoleService._instance = new RoleService();
@@ -41,6 +44,20 @@ class RoleService {
     return role;
   }
 
+  /**
+   * Get role by id
+   * @param role_id
+   * @returns Role
+   */
+  async getRoleById(role_id: number) {
+    const role = await prisma.role.findUnique({
+      where: { role_id },
+    });
+
+    if (!role) throw new BadRequestError("Role not found!");
+    return role;
+  }
+
   // create role
   async createRole({
     role_name,
@@ -51,7 +68,9 @@ class RoleService {
   }) {
     await this.roleExist(role_name);
 
+    // Convert role name to lowercase to maintain consistency
     role_name = role_name.toLowerCase();
+
     const role = await prisma.role.create({
       data: { role_name, permissions },
     });
@@ -67,7 +86,9 @@ class RoleService {
     role_id: number;
     permissions: string[];
   }) {
-    const role = await prisma.role.update({
+    await this.getRoleById(role_id);
+
+    const updatedRole = await prisma.role.update({
       where: { role_id },
       data: {
         permissions: {
@@ -80,12 +101,14 @@ class RoleService {
         permissions: true,
       },
     });
-    return role;
+    return updatedRole;
   }
 
   // Get user role
   async deleteRole(role_id: number) {
-    const role = await prisma.role.delete({
+    await this.getRoleById(role_id);
+
+    const deletedRole = await prisma.role.delete({
       where: { role_id },
       select: {
         role_id: true,
@@ -94,12 +117,12 @@ class RoleService {
       },
     });
 
-    return role;
+    return deletedRole;
   }
 
   // Get role permission
   async getRolePermissions(role_id: number) {
-    const role = await prisma.role.findUnique({ where: { role_id } });
+    const role = await this.getRoleById(role_id);
     return role?.permissions;
   }
 }

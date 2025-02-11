@@ -16,7 +16,7 @@ export function authorize(
       // If the user is a super admin, allow access to all routes
       if (isSuperAdmin(userRole?.role_name!)) next();
 
-      if (requiredRole.includes(userRole?.role_name!)) {
+      if (requiredRole.includes(userRole?.role_name as RoleEnum)) {
         throw new AuthError(
           "You ton't have the necessary role to access this resource!"
         );

@@ -3,7 +3,7 @@ import { signIn, signUp } from "../controllers/auth";
 import { body } from "express-validator";
 import { regex } from "../lib/regex";
 import { BadRequestError } from "../lib/errors";
-import { requestValidator } from "../middleware/validator";
+import { requestValidator } from "../middleware/request-validator";
 
 const route: Router = express.Router();
 
