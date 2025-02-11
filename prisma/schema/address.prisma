@@ -1,8 +1,8 @@
 model Address {
     address_id Int      @id @default(autoincrement())
-    address    String
-    address2   String?
-    landmark   String?
+    address    String   @db.VarChar(255)
+    address2   String?  @db.VarChar(100)
+    landmark   String?  @db.VarChar(100)
     phone      String   @db.VarChar(15)
     pincode    String   @db.VarChar(10)
     city_id    Int      @db.SmallInt

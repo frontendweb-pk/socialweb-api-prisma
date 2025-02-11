@@ -3,13 +3,13 @@ model Profile {
     bio                  String?
     dob                  DateTime       @db.Date
     qualification        Qualifiation   @default(HighSchool)
-    institute_name       String
+    institute_name       String         @db.VarChar(100)
     qualification_custom String?        @db.VarChar(100)
-    company              String?
+    company              String?        @db.VarChar(100)
     exp                  Decimal        @default(00.0) @db.Decimal(3, 1)
-    resume               String?
+    resume               String?        @db.VarChar(255)
     salary               Decimal        @default(0.00) @db.Decimal(10, 2)
-    github_username      String?
+    github_username      String?        @unique @db.VarChar(100)
     skill                ProfileSkill[]
     user_id              Int            @unique @db.SmallInt
     user                 User           @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)

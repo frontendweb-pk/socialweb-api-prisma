@@ -1,7 +1,7 @@
 model Role {
     role_id     Int      @id @default(autoincrement())
-    role_name   RoleEnum @default(USER)
-    permissions String[]
+    role_name   String   @unique @db.VarChar(100)
+    permissions String[] @db.VarChar(100)
     active      Boolean  @default(true)
     created_at  DateTime @default(now())
     updated_at  DateTime @updatedAt

@@ -1,6 +1,6 @@
 model Tag {
     tag_id Int        @id @default(autoincrement())
-    name   String     @unique
+    name   String     @unique @db.VarChar(100)
     post   PostTags[] // Many-to-many relation to Post
 
     updated_at DateTime @updatedAt
