@@ -10,7 +10,6 @@ const compression_1 = __importDefault(require("compression"));
 const helmet_1 = __importDefault(require("helmet"));
 const path_1 = __importDefault(require("path"));
 const morgan_1 = __importDefault(require("morgan"));
-const session_1 = require("./lib/session");
 const auth_1 = require("./routes/auth");
 const user_1 = require("./routes/user");
 const error_handler_1 = require("./middleware/error-handler");
@@ -25,7 +24,12 @@ app.set("views", path_1.default.resolve(__dirname, "views"));
 // Serve static files (before all other middlewares to allow easy access to static assets)
 app.use(express_1.default.static("public"));
 // Request logging with morgan
-app.use((0, morgan_1.default)("dev"));
+if (process.env.NODE_ENV === "development") {
+    app.use((req, res, next) => {
+        (0, morgan_1.default)("dev");
+        next();
+    });
+}
 // Enable CORS (must come before rate limiting and other security middlewares)
 app.use((0, cors_1.default)());
 // Rate limiting (to protect against brute force and DoS attacks)
@@ -41,8 +45,6 @@ function shouldCompress(req, res) {
     }
     return compression_1.default.filter(req, res); // Fallback to standard filter function
 }
-// Session middleware (ensure that sessions are available to all subsequent routes)
-app.use(session_1.sessionStore);
 // Body parsers (for handling JSON and URL-encoded data)
 app.use(express_1.default.json({ limit: "1mb" })); // Limit the request body size to 1MB
 app.use(express_1.default.urlencoded({ extended: true }));

@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import type { NextFunction, Request, Response } from "express";
-import cors from "cors";
+import cors, { CorsOptions } from "cors";
 import compression from "compression";
 import helmet from "helmet";
 import path from "path";
@@ -32,7 +32,25 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Enable CORS (must come before rate limiting and other security middlewares)
-app.use(cors());
+// Whitelist of allowed domains
+const whitelist = ["http://localhost:5173"]; // Replace with your front-end URL
+
+// CORS options typed correctly
+const corsOptions: CorsOptions = {
+  origin: function (
+    origin: string | undefined,
+    callback: (err: Error | null, allow: boolean) => void
+  ) {
+    // Allow requests from the whitelist or requests with no origin (like from the same origin)
+    if (whitelist.indexOf(origin || "") !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"), false);
+    }
+  },
+  credentials: true, // Allow credentials (cookies, HTTP authentication, etc.)
+};
+app.use(cors(corsOptions));
 
 // Rate limiting (to protect against brute force and DoS attacks)
 app.use(limiter);

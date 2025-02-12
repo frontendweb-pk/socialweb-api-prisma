@@ -8,9 +8,10 @@
     "prestart": "npm run build",
     "start": "node dist/index.js",
     "predev": "npm run build",
-    "server": "nodemon src/index.ts",
     "server:session": "nodemon src/index-session.ts",
-    "dev": "concurrently -k -n \"server,client\" \"pnpm run server\" \"pnpm run dev --prefix clients/socialweb-vue\"",
+    "dev:server": "nodemon src/index.ts",
+    "dev:client": "cd clients/socialweb-vue && pnpm run dev",
+    "dev": "concurrently -k -n \"server,client\" \"pnpm run dev:server\" \"pnpm run dev:client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
