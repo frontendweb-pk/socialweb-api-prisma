@@ -31,7 +31,22 @@ if (process.env.NODE_ENV === "development") {
     });
 }
 // Enable CORS (must come before rate limiting and other security middlewares)
-app.use((0, cors_1.default)());
+// Whitelist of allowed domains
+const whitelist = ["http://localhost:8081", "http://localhost:3000"]; // Replace with your front-end URL
+// CORS options typed correctly
+const corsOptions = {
+    origin: function (origin, callback) {
+        // Allow requests from the whitelist or requests with no origin (like from the same origin)
+        if (whitelist.indexOf(origin || "") !== -1 || !origin) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error("Not allowed by CORS"), false);
+        }
+    },
+    credentials: true, // Allow credentials (cookies, HTTP authentication, etc.)
+};
+app.use((0, cors_1.default)(corsOptions));
 // Rate limiting (to protect against brute force and DoS attacks)
 app.use(rate_limiter_1.limiter);
 // Secure express apps by setting HTTP response headers using Helmet

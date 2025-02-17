@@ -1,3 +1,12 @@
+import type { LucideIcon } from "lucide-vue-next";
+
+export type Theme = "light" | "dark";
+export type Menu = {
+  name: string;
+  icon?: string | LucideIcon;
+  href: string;
+  children?: Menu[];
+};
 export interface IPermission {
   permission_id: number;
   permission: string;

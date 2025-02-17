@@ -72,6 +72,8 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
     res.cookie("refreshToken", refresh, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+      maxAge: 3600 * 1000,
+      path: "/",
     });
 
     // req.session.user = {

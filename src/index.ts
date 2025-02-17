@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === "development") {
 
 // Enable CORS (must come before rate limiting and other security middlewares)
 // Whitelist of allowed domains
-const whitelist = ["http://localhost:5173"]; // Replace with your front-end URL
+const whitelist = ["http://localhost:8081", "http://localhost:3000"]; // Replace with your front-end URL
 
 // CORS options typed correctly
 const corsOptions: CorsOptions = {

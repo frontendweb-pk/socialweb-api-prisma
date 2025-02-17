@@ -14,13 +14,24 @@ export const useAuth = defineStore("auth", {
       user: null,
       isAuth: false,
     } as Auth),
-  getters: {},
+  getters: {
+    isAuthenticate: (state) => state.isAuth,
+    role: (state) => state.user?.role.role_name,
+  },
+
   actions: {
     async signIn(body: { email: string; password: string }) {
       try {
-        const response = await axiosInstance.post("/auth", body);
-        const data = await response.data;
-        console.log(response, data);
+        const response = await axiosInstance.post<IUser>("/api/auth", body);
+        const data = response.data;
+
+        // data
+        console.log(data);
+        this.isAuth = true;
+        this.access_token = data.access_token;
+        this.user = data;
+
+        return data;
       } catch (error) {
         console.log(error);
       }

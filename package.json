@@ -10,8 +10,9 @@
     "predev": "npm run build",
     "server:session": "nodemon src/index-session.ts",
     "dev:server": "nodemon src/index.ts",
-    "dev:client": "cd clients/socialweb-vue && pnpm run dev",
-    "dev": "concurrently -k -n \"server,client\" \"pnpm run dev:server\" \"pnpm run dev:client\"",
+    "dev:vue": "cd clients/vue-app && pnpm run dev",
+    "dev:next": "cd clients/next-app && pnpm run dev",
+    "dev": "concurrently -k -n \"server,next,vue\" \"pnpm run dev:server\" \"pnpm run dev:next\" \"pnpm run dev:vue\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
