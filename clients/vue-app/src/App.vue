@@ -2,7 +2,6 @@
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "./store";
-
 import PageLoader from "./components/ui/page-loader.vue";
 
 // current route
