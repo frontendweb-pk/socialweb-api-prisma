@@ -1,6 +1,5 @@
 <template>
     <aside :class="['bg-white shadow-md', classes]">
-
         <Logo class="flex py-2 px-3 items-center shadow-sm" to="/admin" />
         <div class="divider border-t border-t-gray-200 py-3"></div>
         <div class="p-2">

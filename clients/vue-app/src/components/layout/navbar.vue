@@ -10,6 +10,9 @@
             <NavItem>
                 <Icon :icon="Home" />
             </NavItem>
+            <li>
+                <UserController />
+            </li>
         </ul>
     </nav>
 </template>
@@ -17,5 +20,6 @@
 import { Home } from 'lucide-vue-next';
 import Icon from '../ui/icon.vue';
 import NavItem from '../ui/nav-item.vue';
+import UserController from '../shared/user-controller.vue';
 
 </script>

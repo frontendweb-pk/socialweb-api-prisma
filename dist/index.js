@@ -16,6 +16,7 @@ const error_handler_1 = require("./middleware/error-handler");
 const rate_limiter_1 = require("./lib/rate-limiter");
 const role_1 = require("./routes/role");
 const permission_1 = require("./routes/permission");
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 // Create a new express application instance
 const app = (0, express_1.default)();
 // Configuration for view engine
@@ -47,6 +48,7 @@ const corsOptions = {
     credentials: true, // Allow credentials (cookies, HTTP authentication, etc.)
 };
 app.use((0, cors_1.default)(corsOptions));
+app.use((0, cookie_parser_1.default)());
 // Rate limiting (to protect against brute force and DoS attacks)
 app.use(rate_limiter_1.limiter);
 // Secure express apps by setting HTTP response headers using Helmet

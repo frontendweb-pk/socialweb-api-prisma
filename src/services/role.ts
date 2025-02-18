@@ -29,6 +29,8 @@ class RoleService {
         role_id: true,
         role_name: true,
         permissions: true,
+        created_at: true,
+        updated_at: true,
       },
     });
     return roles;

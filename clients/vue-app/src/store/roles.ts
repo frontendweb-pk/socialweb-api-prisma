@@ -2,12 +2,12 @@ import axiosInstance from "@/axios-instance";
 import { defineStore } from "pinia";
 import { onMounted, ref } from "vue";
 import { toast } from "vue3-toastify";
-export interface Role {
+export interface Role extends Record<string, unknown> {
   role_id?: number;
   role_name: string;
-  created_at: string;
-  updated_at: string;
-  active: boolean;
+  created_at?: string;
+  updated_at?: string;
+  active?: boolean;
   permissions?: string[];
 }
 
