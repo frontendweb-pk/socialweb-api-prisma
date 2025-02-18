@@ -2,7 +2,7 @@ import axiosInstance from "@/axios-instance";
 import { defineStore } from "pinia";
 import { onMounted, ref } from "vue";
 import { toast } from "vue3-toastify";
-interface Role {
+export interface Role {
   role_id?: number;
   role_name: string;
   created_at: string;

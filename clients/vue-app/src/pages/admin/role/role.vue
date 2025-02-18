@@ -6,7 +6,7 @@
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
     <div>
-      {{ roleStore.roles }}
+      <RoleList :roles="roleStore.roles" />
     </div>
   </div>
 </template>
@@ -14,6 +14,7 @@
 
 
 <script setup lang="ts">
+import RoleList from '@/components/admin/roles/role-list.vue';
 import { useRolesStore } from '@/store';
 
 

@@ -5,7 +5,6 @@ import { verifyAccessToken } from "../lib/jwt-jose";
 
 export async function auth(req: Request, res: Response, next: NextFunction) {
   const session = req.cookies["refreshToken"];
-  console.log(session, session);
 
   // Cookies that have not been signed
 
