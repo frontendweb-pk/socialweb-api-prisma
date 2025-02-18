@@ -1,7 +1,7 @@
 import axiosInstance from "@/axios-instance";
 import type { IUser } from "@/lib/types";
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useLocalStorage } from "@vueuse/core";
 import { jwtDecode } from "jwt-decode";
@@ -12,7 +12,7 @@ interface Auth {
   user: IUser | null | string;
   access_token: string | null;
   role?: string;
-  expires_in?: number;
+  expireAt?: number | null; // Store expiry as timestamp
 }
 
 let timer: ReturnType<typeof setTimeout>;
@@ -25,7 +25,7 @@ export const useAuthStore = defineStore("auth", () => {
         isAuth: false,
         user: null,
         role: "",
-        expires_in: 0,
+        expireAt: 0,
       },
       {
         serializer: {
@@ -36,9 +36,11 @@ export const useAuthStore = defineStore("auth", () => {
     )
   );
 
-  const accessToken = computed(() => state.value.access_token);
-  const loggedInUser = computed(() => state.value.user);
-  const loggedInRole = computed(() => state.value.role);
+  // extract data from store
+  const isLoggedIn = !!state.value.access_token;
+  const loggedInUser = state.value.user;
+  const loggedInRole = state.value.role;
+  const expireAt = state.value.expireAt;
 
   // router
   const router = useRouter();
@@ -62,8 +64,8 @@ export const useAuthStore = defineStore("auth", () => {
 
   // Check if token is expired and logout if necessary
   const checkAuth = () => {
-    if (accessToken.value) {
-      if (state.value.expires_in && state.value.expires_in < Date.now()) {
+    if (isLoggedIn) {
+      if (expireAt && expireAt < Date.now()) {
         logout();
       }
     } else {
@@ -87,7 +89,7 @@ export const useAuthStore = defineStore("auth", () => {
       // Decode the token and setup auto logout
       const decoded = decodeToken(access_token);
       if (decoded?.exp) {
-        state.value.expires_in = Date.now() + decoded.exp;
+        state.value.expireAt = decoded.exp;
         autoLogout(decoded.exp);
       }
 
@@ -129,7 +131,7 @@ export const useAuthStore = defineStore("auth", () => {
   const signUp = async (email: string, password: string) => {};
 
   return {
-    accessToken,
+    isLoggedIn,
     loggedInRole,
     loggedInUser,
     state,

@@ -52,13 +52,14 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
 
     const user = await login({ email, password });
 
+    const expireAt = Date.now() + 5 * 60 * 1000;
     const token = await generateAccessToken(
       {
         user_id: user.user_id,
         role: user.role.role_name,
         role_id: user.role.role_id,
       },
-      5 * 60 * 1000 // 5 minutes
+      expireAt // 5 minutes
     );
 
     user.access_token = token;
