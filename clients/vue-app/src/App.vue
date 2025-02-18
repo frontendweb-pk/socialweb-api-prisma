@@ -1,11 +1,20 @@
 <script setup lang="ts">
+import { onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { useAuthStore } from "./store";
+import Cookies from "js-cookie";
 
 // current route
 const route = useRoute()
 console.log(route.meta)
 
-
+const authStore = useAuthStore()
+// transition
+onMounted(() => {
+  authStore.checkAuth();
+  console.log('mounted', document.cookie)
+  console.log('c', Cookies.get("refreshToken"))
+});
 </script>
 
 <template>

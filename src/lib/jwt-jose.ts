@@ -12,11 +12,14 @@ interface Payload extends JWTPayload {
   role?: string;
 }
 // Access token
-const generateAccessToken = async (payload: Payload) => {
+const generateAccessToken = async (
+  payload: Payload,
+  time: string | number = "1h"
+) => {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("1h")
+    .setExpirationTime(time)
     .sign(accessEncoder);
 };
 const verifyAccessToken = async (token: string) => {

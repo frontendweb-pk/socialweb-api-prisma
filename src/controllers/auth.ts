@@ -52,11 +52,14 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
 
     const user = await login({ email, password });
 
-    const token = await generateAccessToken({
-      user_id: user.user_id,
-      role: user.role.role_name,
-      role_id: user.role.role_id,
-    });
+    const token = await generateAccessToken(
+      {
+        user_id: user.user_id,
+        role: user.role.role_name,
+        role_id: user.role.role_id,
+      },
+      5 * 60 * 1000 // 5 minutes
+    );
 
     user.access_token = token;
 
@@ -65,12 +68,13 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
       data: { access_token: token },
     });
 
-    res.cookie("refreshToken", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 3600 * 1000,
-      path: "/",
-    });
+    // res.cookie("refreshToken", token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production",
+    //   maxAge: 5 * 60 * 1000, // 5 minutes
+    //   path: "/",
+    //   sameSite: "lax",
+    // });
 
     // req.session.user = {
     //   email: user.email,

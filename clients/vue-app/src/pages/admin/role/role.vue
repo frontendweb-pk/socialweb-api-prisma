@@ -1,5 +1,5 @@
 <template>
-  <PageTitle title="Roles & Permissions" />
+  <PageTitle title="Roles & Permissions" btnLabel="Add Role" />
   <DataTable :data="roleStore.roles" :columns="columns">
     <template v-slot:[action]="{ row }">
       <TableAction :role="row" column="action" />
@@ -8,8 +8,6 @@
   </DataTable>
 
 </template>
-
-
 
 <script setup lang="ts">
 import DataTable from '@/components/ui/data-table/data-table.vue';

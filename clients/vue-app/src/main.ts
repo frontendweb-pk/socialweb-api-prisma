@@ -1,9 +1,9 @@
 import { createApp } from "vue";
+import "vue3-toastify/dist/index.css";
 import "./style.css";
 import App from "./App.vue";
 import router from "./router";
 import { createPinia } from "pinia";
-
 // app instance
 const app = createApp(App);
 
