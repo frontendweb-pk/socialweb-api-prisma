@@ -1,23 +1,33 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { onMounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "./store";
-import Cookies from "js-cookie";
+
+import PageLoader from "./components/ui/page-loader.vue";
 
 // current route
 const route = useRoute()
 console.log(route.meta)
+const router = useRouter()
 
 const authStore = useAuthStore()
 // transition
 onMounted(() => {
   authStore.checkAuth();
-  console.log('mounted', document.cookie)
-  console.log('c', Cookies.get("refreshToken"))
+});
+
+// page loader
+const pageLoaderRef = ref<InstanceType<typeof PageLoader> | null>(null);
+onMounted(() => {
+  router.beforeEach((_, __, next) => {
+    pageLoaderRef.value?.startLoading(); next();
+  });
+  router.afterEach(() => { pageLoaderRef.value?.stopLoading(); });
 });
 </script>
 
 <template>
+  <PageLoader ref="pageLoaderRef" />
   <RouterView v-slot="{ Component, route }">
     <Transition :name="route.meta.transition as string || 'fade'" mode="out-in">
       <Component :is="Component" />

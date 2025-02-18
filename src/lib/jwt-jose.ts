@@ -6,14 +6,14 @@ const refreshToken = process.env.REFRESH_TOKEN;
 const accessEncoder = new TextEncoder().encode(accessToken);
 const refreshEncoder = new TextEncoder().encode(refreshToken);
 
-interface Payload extends JWTPayload {
+export interface AuthPayload extends JWTPayload {
   user_id: number;
-  role_id?: number;
-  role?: string;
+  role_id: number;
+  role: string;
 }
 // Access token
 const generateAccessToken = async (
-  payload: Payload,
+  payload: AuthPayload,
   time: string | number = "1h"
 ) => {
   return await new SignJWT(payload)
@@ -25,7 +25,7 @@ const generateAccessToken = async (
 const verifyAccessToken = async (token: string) => {
   try {
     const { payload } = await jwtVerify(token, accessEncoder);
-    return payload as Payload;
+    return payload as AuthPayload;
   } catch (error) {
     console.error("JWT verification error:", error);
     return null; // Or throw the error if you prefer
@@ -33,7 +33,7 @@ const verifyAccessToken = async (token: string) => {
 };
 
 // Refresh token
-const generateRefreshToken = async (payload: Payload) => {
+const generateRefreshToken = async (payload: AuthPayload) => {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()

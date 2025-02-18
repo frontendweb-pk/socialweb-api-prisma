@@ -15,8 +15,11 @@ const router = createRouter({
   history: createWebHistory(),
 });
 
+// router.beforeEach((to, from, next) => {});
+// router.afterEach(() => {});
+
 // middleware
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   const authStore = useAuthStore();
   if (to.meta.requiresAuth && !authStore.state.isAuth) {
     next({

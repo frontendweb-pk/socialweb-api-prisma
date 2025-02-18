@@ -8,8 +8,6 @@
 
 <script setup lang="ts">
 import Cover from '@/components/ui/cover.vue';
-
-
 </script>
 
 <style></style>

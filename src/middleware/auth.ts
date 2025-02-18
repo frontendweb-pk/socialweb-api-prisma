@@ -1,22 +1,28 @@
 import { Request, Response, NextFunction } from "express";
 import { AuthError } from "../lib/errors";
 import { logger } from "../lib/logger";
-import { verifyAccessToken } from "../lib/jwt-jose";
+import { AuthPayload, verifyAccessToken } from "../lib/jwt-jose";
 
 export async function auth(req: Request, res: Response, next: NextFunction) {
-  const session = req.cookies["refreshToken"];
+  const authToken = req.headers.authorization;
 
-  // Cookies that have not been signed
+  if (!authToken) {
+    logger.warn(
+      `Unauthorized access! attempt at ${req.originalUrl} from IP: ${req.ip}`
+    );
+    throw new AuthError("Unauthorized access! You must be logged in.");
+  }
 
-  // Cookies that have been signed
   try {
-    const isValid = await verifyAccessToken(session);
+    const token = authToken.split(" ")[1];
+    const isValid = await verifyAccessToken(token);
     if (!isValid) {
       logger.warn(
         `Unauthorized access! attempt at ${req.originalUrl} from IP: ${req.ip}`
       );
       throw new AuthError("Unauthorized access! You must be logged in.");
     }
+    req.user = isValid as AuthPayload;
     next();
   } catch (error) {
     next(error);

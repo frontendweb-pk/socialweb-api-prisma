@@ -1,9 +1,9 @@
 <template>
     <header :class="['h-16 ', themeColor]">
         <Container class="flex justify-between items-center h-full">
-            <Button @click="onToggle" class="p-2">
+            <button @click="onToggle" class="p-2">
                 <Icon :icon="Menu" />
-            </Button>
+            </button>
             <Logo v-if="props.type === 'user'" />
             <Navbar />
         </Container>
@@ -15,7 +15,6 @@ import Container from '../ui/container.vue';
 import Logo from './logo.vue';
 import Navbar from './navbar.vue';
 import Icon from '../ui/icon.vue';
-import Button from '../ui/button.vue';
 import type { Theme } from '@/lib/types';
 import { computed } from 'vue';
 import { Menu } from 'lucide-vue-next';
