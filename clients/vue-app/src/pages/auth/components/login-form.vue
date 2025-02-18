@@ -1,52 +1,34 @@
 <template>
-  <form @submit.prevent="handleLogin">
-    <input
-      type="text"
-      name="email"
-      placeholder="enter email"
-      v-model="values.email"
-    />
-    <input
-      type="password"
-      name="password"
-      placeholder="*******"
-      v-model="values.password"
-    />
-    <button type="submit">Login</button>
-  </form>
+  <div class="mb-6">
+    <h1 class="text-2xl text-indigo-950 font-medium mb-1">Login</h1>
+    <p class="text-xs text-gray-500">If you don't have an account,
+      please click <RouterLink to="/signup" class="text-rose-600">Sign up
+      </RouterLink>
+    </p>
+  </div>
+  <Form @submit.prevent="handleLogin">
+    <Input label="Email" type="text" name="email" placeholder="enter email" v-model="values.email" />
+    <Input label="Password" type="password" name="password" placeholder="*******" v-model="values.password" />
+    <Button class="bg-indigo-950 w-full rounded-md text-white p-2" type="submit">Login</Button>
+  </Form>
 </template>
 
-<script lang="ts">
-export default {};
-</script>
 <script lang="ts" setup>
-import { useAuth } from "@/store/auth";
+import { useAuthStore } from "@/store";
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import Input from "@/components/ui/input.vue";
+import Form from "@/components/ui/form.vue";
+import Button from "@/components/ui/button.vue";
 
 // auth store
-const authStore = useAuth();
+const authStore = useAuthStore();
 
-// router
-const router = useRouter();
-
-const values = ref({
-  email: "",
-  password: "",
-});
+// form values
+const values = ref({ email: "", password: "", });
 
 async function handleLogin() {
   await authStore.signIn(values.value);
-
-  if (authStore.role === "admin") {
-    router.push("/admin/dashboard");
-  }
-
-  if (authStore.role === "user") {
-    router.push("/");
-  }
 }
 </script>
 
-<style>
-</style>
+<style></style>

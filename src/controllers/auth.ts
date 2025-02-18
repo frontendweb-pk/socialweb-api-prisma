@@ -57,19 +57,15 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
       role: user.role.role_name,
       role_id: user.role.role_id,
     });
-    const refresh = await generateRefreshToken({
-      user_id: user.user_id,
-    });
 
     user.access_token = token;
-    user.refresh_token = refresh;
 
     await prisma.user.update({
       where: { user_id: user.user_id },
-      data: { access_token: token, refresh_token: refresh },
+      data: { access_token: token },
     });
 
-    res.cookie("refreshToken", refresh, {
+    res.cookie("refreshToken", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 3600 * 1000,

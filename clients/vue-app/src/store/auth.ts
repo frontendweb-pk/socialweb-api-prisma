@@ -1,41 +1,61 @@
 import axiosInstance from "@/axios-instance";
 import type { IUser } from "@/lib/types";
 import { defineStore } from "pinia";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useLocalStorage } from "@vueuse/core";
 
 interface Auth {
   isAuth: boolean;
-  user: IUser | null;
+  user: IUser | null | string;
   access_token: string | null;
+  role?: string;
 }
-export const useAuth = defineStore("auth", {
-  state: () =>
-    ({
-      access_token: null,
-      user: null,
-      isAuth: false,
-    } as Auth),
-  getters: {
-    isAuthenticate: (state) => state.isAuth,
-    role: (state) => state.user?.role.role_name,
-  },
 
-  actions: {
-    async signIn(body: { email: string; password: string }) {
-      try {
-        const response = await axiosInstance.post<IUser>("/api/auth", body);
-        const data = response.data;
-
-        // data
-        console.log(data);
-        this.isAuth = true;
-        this.access_token = data.access_token;
-        this.user = data;
-
-        return data;
-      } catch (error) {
-        console.log(error);
+export const useAuthStore = defineStore("auth", () => {
+  const state = ref(
+    useLocalStorage<Auth>(
+      "auth",
+      {
+        access_token: null,
+        isAuth: false,
+        user: null,
+        role: "",
+      },
+      {
+        serializer: {
+          read: (value) => JSON.parse(value),
+          write: (value) => JSON.stringify(value),
+        },
       }
-    },
-    async signUp() {},
-  },
+    )
+  );
+
+  const router = useRouter();
+
+  const signIn = async (body: { email: string; password: string }) => {
+    try {
+      const response = await axiosInstance.post("/api/auth", body);
+      state.value.access_token = response.data.access_token;
+      state.value.isAuth = true;
+      state.value.user = response.data;
+      state.value.role = response.data.role.role_name;
+
+      if (state.value.role === "admin") {
+        router.push("/admin/dashboard");
+      }
+
+      if (state.value.role === "user") {
+        router.push("/");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const signUp = async (email: string, password: string) => {};
+
+  const logout = async () => {};
+
+  return { state, signIn, signUp, logout };
 });

@@ -12,7 +12,7 @@ import { errorHandler } from "./middleware/error-handler";
 import { limiter } from "./lib/rate-limiter";
 import { roleRouter } from "./routes/role";
 import { permissionRouter } from "./routes/permission";
-
+import cookieParser from "cookie-parser";
 // Create a new express application instance
 const app = express();
 
@@ -52,6 +52,7 @@ const corsOptions: CorsOptions = {
 };
 app.use(cors(corsOptions));
 
+app.use(cookieParser());
 // Rate limiting (to protect against brute force and DoS attacks)
 app.use(limiter);
 

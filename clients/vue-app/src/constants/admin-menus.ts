@@ -1,8 +1,6 @@
 import type { Menu } from "@/lib/types";
 import {
-  BookDashed,
   CogIcon,
-  Home,
   KeyIcon,
   LayoutDashboard,
   Newspaper,
@@ -23,14 +21,14 @@ export const adminMenus: Menu[] = [
         href: "/admin/dashboard",
       },
       {
-        name: "Role",
+        name: "Roles",
         icon: Users,
-        href: "/admin/role",
+        href: "/admin/roles",
       },
       {
-        name: "User",
+        name: "Users",
         icon: User,
-        href: "/admin/user",
+        href: "/admin/users",
       },
       {
         name: "Permission",
@@ -56,7 +54,7 @@ export const adminMenus: Menu[] = [
       {
         name: "Setting",
         icon: CogIcon,
-        href: "/admin/setting",
+        href: "/admin/settings",
       },
       {
         name: "Password",

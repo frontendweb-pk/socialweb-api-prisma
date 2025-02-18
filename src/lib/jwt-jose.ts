@@ -1,4 +1,4 @@
-import { JWTPayload, SignJWT, importJWK, jwtVerify } from "jose";
+import { JWTPayload, SignJWT, jwtVerify } from "jose";
 
 const accessToken = process.env.SECRET_KEY;
 const refreshToken = process.env.REFRESH_TOKEN;
@@ -22,7 +22,7 @@ const generateAccessToken = async (payload: Payload) => {
 const verifyAccessToken = async (token: string) => {
   try {
     const { payload } = await jwtVerify(token, accessEncoder);
-    return payload;
+    return payload as Payload;
   } catch (error) {
     console.error("JWT verification error:", error);
     return null; // Or throw the error if you prefer

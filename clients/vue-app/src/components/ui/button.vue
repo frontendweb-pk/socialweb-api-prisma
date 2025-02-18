@@ -1,5 +1,5 @@
 <template>
-    <button :type="type">
+    <button class="cursor-pointer" v-bind="$attrs" :type="type">
         <slot>Submit</slot>
     </button>
 </template>
@@ -11,5 +11,6 @@ withDefaults(defineProps<{
 }>(), {
     type: 'button'
 })
+
 
 </script>

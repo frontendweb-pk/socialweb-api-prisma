@@ -2,7 +2,8 @@ export const authRoutes = {
   path: "/auth",
   name: "auth",
   alias: "/login",
-  component: () => import("@/components/layout/auth/AuthLayout.vue"),
+  component: () => import("@/pages/auth/auth.vue"),
+  meta: { requiresAuth: false },
   children: [
     {
       path: "",

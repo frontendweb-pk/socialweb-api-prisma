@@ -3,4 +3,5 @@ export const publicRoutes = {
   name: "home",
   component: () =>
     import(/* webpackChunkName: "home" */ "@/pages/home/home.vue"),
+  meta: { requiresAuth: false },
 };

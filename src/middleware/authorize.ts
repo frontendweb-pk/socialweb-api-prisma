@@ -4,13 +4,19 @@ import { AuthError } from "../lib/errors";
 import { isSuperAdmin } from "./is-super-admin";
 import { roleService } from "../services/role";
 import { userService } from "../services/user";
+import { verifyAccessToken } from "../lib/jwt-jose";
 
 export function authorize(requiredPermissions?: string[] | string | undefined) {
   return async function cb(req: Request, res: Response, next: NextFunction) {
     try {
-      const user = req.session.user; // session user
+      const user = await verifyAccessToken(req.cookies["refreshToken"]);
 
-      const userRole = roleService.getRoleById(user.role_id); // session user role
+      if (!user) {
+        throw new AuthError("Unauthorized access! You must be logged in.");
+      }
+
+      console.log("user", user);
+      const userRole = roleService.getRoleById(user.role_id!); // session user role
       const userPermission = userService.getUserPermission(user.user_id); // session user permissions
 
       const [uRole, uPermissions] = await Promise.all([
