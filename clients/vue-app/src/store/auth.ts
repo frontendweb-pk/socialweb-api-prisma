@@ -4,10 +4,10 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useLocalStorage } from "@vueuse/core";
-import { jwtDecode } from "jwt-decode";
 import { toast } from "vue3-toastify";
+import { decodeToken } from "@/utils/decode-token";
 
-interface Auth {
+interface AuthState {
   isAuth: boolean;
   user: IUser | null | string;
   access_token: string | null;
@@ -15,10 +15,9 @@ interface Auth {
   expireAt?: number | null; // Store expiry as timestamp
 }
 
-let timer: ReturnType<typeof setTimeout>;
 export const useAuthStore = defineStore("auth", () => {
   const state = ref(
-    useLocalStorage<Auth>(
+    useLocalStorage<AuthState>(
       "auth",
       {
         access_token: null,
@@ -46,20 +45,13 @@ export const useAuthStore = defineStore("auth", () => {
   const router = useRouter();
 
   // auto logout
-  const autoLogout = (time: number) => {
+
+  let timer: ReturnType<typeof setTimeout> | null = null;
+
+  const setAutoLogout = (time: number) => {
     timer = setTimeout(() => {
       logout();
     }, time);
-  };
-
-  // Decode JWT token to extract payload
-  const decodeToken = (token: string) => {
-    try {
-      return jwtDecode(token);
-    } catch (error) {
-      toast.error((error as Error).message);
-      return null;
-    }
   };
 
   // Check if token is expired and logout if necessary
@@ -90,7 +82,7 @@ export const useAuthStore = defineStore("auth", () => {
       const decoded = decodeToken(access_token);
       if (decoded?.exp) {
         state.value.expireAt = decoded.exp;
-        autoLogout(decoded.exp);
+        setAutoLogout(decoded.exp);
       }
 
       // Navigate user based on role
