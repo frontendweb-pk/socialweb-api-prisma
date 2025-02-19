@@ -1,20 +1,22 @@
-import type { LucideIcon } from "lucide-vue-next";
-import type { VueElement } from "vue";
+import type { LucideIcon } from 'lucide-vue-next';
+
+import type { VueElement } from 'vue';
+
 export type Size =
-  | "sm"
-  | "md"
-  | "lg"
-  | "xl"
-  | "2xl"
-  | "3xl"
-  | "4xl"
-  | "5xl"
-  | "6xl"
-  | "7xl"
-  | "8xl"
-  | "9xl"
-  | "10xl";
-export type Theme = "light" | "dark";
+  | 'sm'
+  | 'md'
+  | 'lg'
+  | 'xl'
+  | '2xl'
+  | '3xl'
+  | '4xl'
+  | '5xl'
+  | '6xl'
+  | '7xl'
+  | '8xl'
+  | '9xl'
+  | '10xl';
+export type Theme = 'light' | 'dark';
 export type Menu = {
   name: string;
   icon?: string | LucideIcon;
@@ -57,4 +59,11 @@ export interface TableColumns<T, K extends keyof T> {
   sortable?: boolean;
   formatter?: (value: T[K]) => string;
   render?: (item: T, column: K) => VueElement;
+}
+export interface QueryParams {
+  page?: string;
+  limit?: string;
+  sort?: string;
+  order?: 'asc' | 'desc';
+  search?: string;
 }

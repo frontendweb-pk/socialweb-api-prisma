@@ -20,6 +20,7 @@
   "tabWidth": 2,
   "useTabs": false,
   "embeddedLanguageFormatting": "auto",
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true

@@ -1,9 +1,13 @@
-import { createApp } from "vue";
-import "vue3-toastify/dist/index.css";
-import "./style.css";
-import App from "./App.vue";
-import router from "./router";
-import { createPinia } from "pinia";
+import 'vue3-toastify/dist/index.css';
+
+import { createApp } from 'vue';
+
+import { createPinia } from 'pinia';
+
+import App from './App.vue';
+import router from './router';
+import './style.css';
+
 // app instance
 const app = createApp(App);
 
@@ -16,7 +20,18 @@ app.use(store);
 
 // global components
 
+// global directives
+app.directive('focus', {
+  mounted(el) {
+    if (el.nodeName === 'INPUT') {
+      el.focus();
+    } else {
+      el.querySelector('input').focus();
+    }
+  },
+});
+
 // define app-wise configuration
 
 // mount app into #app element
-app.mount("#app");
+app.mount('#app');

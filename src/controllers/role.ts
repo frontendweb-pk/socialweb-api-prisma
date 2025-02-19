@@ -1,20 +1,21 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
+
 import { roleService } from "../services/role";
-import { logger } from "../lib/logger";
+import { QueryString } from "../types";
+import { dev } from "../utils/log";
 
 /**
  * Get roles
  */
 const getRoles = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const query = req.query;
-    const page = isNaN(Number(query.page)) ? 1 : Number(query.page);
-    logger.info(query);
-    logger.info(page);
-
-    const roles = await roleService.getRoles();
+    const query = req.query as QueryString;
+    dev("Get roles query: ", query);
+    const roles = await roleService.getRoles(query);
+    console.log(roles);
     res.status(200).json(roles);
   } catch (error) {
+    dev("Get roles error: " + error);
     next(error);
   }
 };
@@ -74,4 +75,4 @@ const deleteRole = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { getRoles, createRole, updateRole, deleteRole };
+export { createRole, deleteRole, getRoles, updateRole };

@@ -26,9 +26,11 @@
     "yup": "^1.6.1"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/js-cookie": "^3.0.6",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/tsconfig": "^0.7.0",
+    "prettier": "^3.5.1",
     "typescript": "~5.7.2",
     "vite": "^6.1.0",
     "vue-tsc": "^2.2.0"

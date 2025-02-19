@@ -9,78 +9,92 @@
         @delete="handleDelete(row)"
         @edit="handleRoleEdit(row)"
         :role="row"
-        column="action" />
+        column="action"
+      />
     </template>
   </DataTable>
 
   <!-- Modal used for add / update role -->
   <Modal v-if="toggle" :title="modalTitle" @close="onClose">
     <EditRole :data="editRoleData" @close="onClose" />
+
+    <!-- <router-view v-slot="{ Component }">
+      <transition>
+        <component :is="Component"></component>
+      </transition>
+    </router-view> -->
   </Modal>
 </template>
 
 <script setup lang="ts">
-import Button from "@/components/ui/button.vue";
-import DataTable from "@/components/ui/data-table/data-table.vue";
-import Modal from "@/components/ui/modal.vue";
-import PageTitle from "@/components/ui/page-title.vue";
-import { useToggle } from "@/hooks/useToggle";
-import type { TableColumns } from "@/lib/types";
-import { useConfirmStore } from "@/store/confirmation";
-import type { Role } from "@/store/roles";
-import { useRolesStore } from "@/store/roles";
-import { computed, ref } from "vue";
-import EditRole from "./components/edit-role.vue";
-import RoleAction from "./components/role-action.vue";
+  import { computed, ref } from 'vue';
 
-// table action column
-const action = "action";
+  import Button from '@/components/ui/button.vue';
+  import DataTable from '@/components/ui/data-table/data-table.vue';
+  import Modal from '@/components/ui/modal.vue';
+  import PageTitle from '@/components/ui/page-title.vue';
 
-// toggle composable
-const { toggle, handleOpen, handleClose } = useToggle();
+  import { useToggle } from '@/hooks/useToggle';
 
-// role
-const editRoleData = ref<Role | null>(null);
+  import { useConfirmStore } from '@/store/confirmation';
+  import type { Role } from '@/store/roles';
+  import { useRolesStore } from '@/store/roles';
 
-// modal title computed
-const modalTitle = computed(() =>
-  editRoleData.value ? "Edit Role" : "Add Role",
-);
+  import type { TableColumns } from '@/lib/types';
 
-// role store
-const roleStore = useRolesStore();
-const confirmStore = useConfirmStore();
+  import EditRole from './components/edit-role.vue';
+  import RoleAction from './components/role-action.vue';
 
-// columns
-type keys = keyof Role;
-const columns: TableColumns<Role, keys>[] = [
-  // Use `Role` as the first type argument
-  { field: "role_id", fieldName: "ID" },
-  { field: "role_name", fieldName: "Role Name" },
-  { field: "created_at", fieldName: "Created At" },
-  { field: "updated_at", fieldName: "Updated At" },
-  { field: "action", fieldName: "Actions" },
-];
+  // table action column
+  const action = 'action';
 
-// edit role
-const handleRoleEdit = (role: Role) => {
-  console.log(role, "role");
-  editRoleData.value = { ...role };
-  handleOpen();
-};
+  // toggle composable
+  const { toggle, handleOpen, handleClose } = useToggle();
 
-const onClose = () => {
-  handleClose();
-  editRoleData.value = null;
-};
+  // role
+  const editRoleData = ref<Role | null>(null);
 
-const handleDelete = (role: Role) => {
-  confirmStore.handleConfirm({
-    title: "Delete Role",
-    message: `Are you sure you want to delete ${role.role_name} role?`,
-    onConfirm: async () => await roleStore.deleteRole(role.role_id!),
-  });
-};
+  // modal title computed
+  const modalTitle = computed(() =>
+    editRoleData.value ? 'Edit Role' : 'Add Role',
+  );
+
+  // role store
+  const roleStore = useRolesStore();
+  const confirmStore = useConfirmStore();
+
+  // columns
+  type keys = keyof Role;
+  const columns: TableColumns<Role, keys>[] = [
+    { field: 'role_id', fieldName: 'ID' },
+    { field: 'role_name', fieldName: 'Role Name' },
+    { field: 'created_at', fieldName: 'Created At' },
+    { field: 'updated_at', fieldName: 'Updated At' },
+    { field: 'action', fieldName: 'Actions' },
+  ];
+
+  // edit role
+  const handleRoleEdit = (role: Role) => {
+    console.log(role, 'role');
+    editRoleData.value = { ...role };
+    handleOpen();
+  };
+
+  const onClose = () => {
+    handleClose();
+    editRoleData.value = null;
+  };
+
+  const handleDelete = (role: Role) => {
+    confirmStore.handleConfirm({
+      title: 'Delete Role',
+      message: `Are you sure you want to delete ${role.role_name} role?`,
+      onConfirm: async () => {
+        await roleStore.deleteRole(role.role_id!);
+        confirmStore.handleConfirmCancel();
+      },
+    });
+  };
 </script>
 
 <style></style>

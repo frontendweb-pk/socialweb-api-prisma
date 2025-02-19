@@ -3,4 +3,6 @@ export const config = {
   appName: process.env.APP_NAME!,
   redisUrl: process.env.REDIS_URL!,
   sessionPrefix: "socialweb:session:",
+  refreshTokenPrefix: "socialweb:refreshToken:",
+  accessTokenPrefix: "socialweb:accessToken:",
 };

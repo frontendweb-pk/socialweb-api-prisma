@@ -1,5 +1,9 @@
-import { BadRequestError, NotFoundError } from "../lib/errors";
+import { BadRequestError } from "../lib/errors";
 import prisma from "../lib/prisma-client";
+import { QueryString } from "../types";
+import { parsedQuery } from "../utils/parsed-query";
+
+const ALLOWED_ATTRIBUTES = ["role_name"];
 
 class RoleService {
   private constructor() {}
@@ -22,18 +26,31 @@ class RoleService {
    * access by role : admin
    * @returns
    */
-  async getRoles() {
-    const roles = await prisma.role.findMany({
-      select: {
-        active: true,
-        role_id: true,
-        role_name: true,
-        permissions: true,
-        created_at: true,
-        updated_at: true,
-      },
-    });
-    return roles;
+
+  async getRoles(query: QueryString) {
+    const { limit, order, page, search, sort, where } = parsedQuery(
+      query,
+      ALLOWED_ATTRIBUTES,
+    );
+
+    const [roles, totalCount] = await prisma.$transaction([
+      prisma.role.findMany({
+        where: where,
+        orderBy: { [sort]: order },
+        skip: (page - 1) * limit,
+        take: limit,
+        select: {
+          active: true,
+          role_id: true,
+          role_name: true,
+          permissions: true,
+          created_at: true,
+          updated_at: true,
+        },
+      }),
+      prisma.role.count({ where }),
+    ]);
+    return { roles, totalCount, totalPages: Math.ceil(totalCount / limit) };
   }
 
   // check role exists
