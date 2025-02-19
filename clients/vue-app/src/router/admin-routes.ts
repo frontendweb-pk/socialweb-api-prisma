@@ -12,7 +12,7 @@ export const adminRoutes = {
     {
       path: "roles",
       name: "roles",
-      component: () => import("@/pages/admin/role/role.vue"),
+      component: () => import("@/pages/admin/roles/page.vue"),
     },
     {
       path: "permission",

@@ -7,3 +7,7 @@ node_modules
 *.md
 dist
 .next
+
+.log
+*.log
+socialweb.log

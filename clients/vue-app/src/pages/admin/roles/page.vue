@@ -1,35 +1,46 @@
 <template>
   <PageTitle title="Roles & Permissions" btnLabel="">
-    <Button color="primary" @click="onToggle"> Add Role </Button>
+    <Button color="primary" @click="handleOpen"> Add Role </Button>
   </PageTitle>
 
   <DataTable :data="roleStore.roles" :columns="columns">
     <template v-slot:[action]="{ row }">
-      <TableAction :role="row" column="action" />
+      <RoleAction @edit="handleRoleEdit(row)" :role="row" column="action" />
     </template>
   </DataTable>
 
-  <Modal :isOpen="toggle" title="Add role" @close="onToggle">
-    <EditRole />
+  <!-- Modal used for add / update role -->
+  <Modal v-if="toggle" :title="modalTitle" @close="onClose">
+    <EditRole :data="editRoleData" @close="onClose" />
   </Modal>
 </template>
 
 <script setup lang="ts">
 import Button from "@/components/ui/button.vue";
 import DataTable from "@/components/ui/data-table/data-table.vue";
-import TableAction from "@/components/ui/data-table/table-action.vue";
 import Modal from "@/components/ui/modal.vue";
 import PageTitle from "@/components/ui/page-title.vue";
 import { useToggle } from "@/hooks/useToggle";
 import type { TableColumns } from "@/lib/types";
 import { useRolesStore } from "@/store";
 import type { Role } from "@/store/roles";
-import EditRole from "./edit-role.vue";
+import { computed, ref } from "vue";
+import EditRole from "./components/edit-role.vue";
+import RoleAction from "./components/role-action.vue";
 
-// toggle modal
-const { toggle, onToggle } = useToggle();
-
+// table action column
 const action = "action";
+
+// toggle composable
+const { toggle, handleOpen, handleClose } = useToggle();
+
+// role
+const editRoleData = ref<Role | null>(null);
+
+// modal title computed
+const modalTitle = computed(() =>
+  editRoleData.value ? "Edit Role" : "Add Role",
+);
 
 // role store
 const roleStore = useRolesStore();
@@ -44,6 +55,17 @@ const columns: TableColumns<Role, keys>[] = [
   { field: "updated_at", fieldName: "Updated At" },
   { field: "action", fieldName: "Actions" },
 ];
+
+// edit role
+const handleRoleEdit = (role: Role) => {
+  editRoleData.value = { ...role };
+  handleOpen();
+};
+
+const onClose = () => {
+  handleClose();
+  editRoleData.value = null;
+};
 </script>
 
 <style></style>
