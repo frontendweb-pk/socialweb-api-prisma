@@ -1,29 +1,59 @@
 <template>
-    <div class="mb-3">
-        <label v-if="label" class="block mb-1 text-sm  text-gray-700" for="email">{{ label }}</label>
-        <div class="border border-gray-200 rounded-md">
-            <input v-bind="$attrs" v-model="model" class="outline-none p-2 bg-transparent" :type="type" name="email"
-                :placeholder="placeholder" />
-        </div>
-        <div v-if="error" class="text-red-500 text-xs">{{ error }}</div>
+  <div class="mb-3">
+    <label v-if="label" class="block mb-1 text-sm text-gray-700" for="email">{{
+      label
+    }}</label>
+    <div
+      :class="[
+        'border border-gray-300 rounded-md',
+        {
+          'border-red-500': errorMessage,
+          'border-green-500': meta.valid && meta.dirty,
+        },
+      ]">
+      <input
+        v-on="validationListeners"
+        :value="value"
+        class="outline-none p-2 bg-transparent"
+        :type="type"
+        name="email"
+        :placeholder="placeholder" />
     </div>
+    <div v-if="errorMessage" class="text-red-500 text-xs">
+      {{ errorMessage }}
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
+import { useField } from "vee-validate";
 
 // component options
-defineOptions({ inheritAttrs: false })
+defineOptions({ inheritAttrs: false });
 
 // component props
-withDefaults(
-    defineProps<{
-        error?: string;
-        label?: string;
-        type?: HTMLInputElement['type'];
-        placeholder?: string;
-    }>(), {
-    type: 'text'
-})
+const props = withDefaults(
+  defineProps<{
+    name: string;
+    label?: string;
+    type?: HTMLInputElement["type"];
+    placeholder?: string;
+  }>(),
+  {
+    type: "text",
+  },
+);
 
-const model = defineModel({ default: '' })
+// const model = defineModel({ default: '' })
+
+// form
+const { value, meta, errorMessage, handleBlur, handleChange } = useField(
+  () => props.name,
+);
+
+const validationListeners = {
+  blur: (evt: Event) => handleBlur(evt, true),
+  change: handleChange,
+  input: (evt: Event) => handleChange(evt, !!errorMessage.value),
+};
 </script>

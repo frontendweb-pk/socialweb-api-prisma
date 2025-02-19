@@ -13,7 +13,11 @@
     "dev:vue": "cd clients/vue-app && pnpm run dev",
     "dev:next": "cd clients/next-app && pnpm run dev",
     "dev": "concurrently -k -n \"server,next,vue\" \"pnpm run dev:server\" \"pnpm run dev:next\" \"pnpm run dev:vue\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   },
   "keywords": [],
   "author": "frontendweb-sg",
@@ -53,8 +57,11 @@
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.13.1",
     "concurrently": "^9.1.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.9",
+    "prettier": "3.5.1",
     "prisma": "^6.3.1"
   }
 }

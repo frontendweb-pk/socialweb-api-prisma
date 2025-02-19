@@ -1,34 +1,47 @@
 <template>
   <div class="mb-6">
     <h1 class="text-2xl text-indigo-950 font-medium mb-1">Login</h1>
-    <p class="text-xs text-gray-500">If you don't have an account,
-      please click <RouterLink to="/signup" class="text-rose-600">Sign up
-      </RouterLink>
+    <p class="text-xs text-gray-500">
+      If you don't have an account, please click
+      <RouterLink to="/signup" class="text-rose-600">Sign up </RouterLink>
     </p>
   </div>
   <Form @submit.prevent="handleLogin">
-    <Input label="Email" type="text" name="email" placeholder="enter email" v-model="values.email" />
-    <Input label="Password" type="password" name="password" placeholder="*******" v-model="values.password" />
-    <Button class="bg-indigo-950 w-full rounded-md text-white p-2" type="submit">Login</Button>
+    <Input label="Email" type="text" name="email" placeholder="enter email" />
+    <Input
+      label="Password"
+      type="password"
+      name="password"
+      placeholder="*******" />
+    <Button color="primary" size="full" type="submit">Login</Button>
   </Form>
 </template>
 
 <script lang="ts" setup>
-import { useAuthStore } from "@/store";
-import { ref } from "vue";
 import Input from "@/components/ui/input.vue";
 import Form from "@/components/ui/form.vue";
 import Button from "@/components/ui/button.vue";
+import { useAuthStore } from "@/store";
+import { useForm } from "vee-validate";
+import * as yup from "yup";
 
 // auth store
 const authStore = useAuthStore();
 
-// form values
-const values = ref({ email: "", password: "", });
+// form
+const { values, meta, handleSubmit } = useForm({
+  initialValues: { email: "", password: "" },
+  validationSchema: yup.object({
+    email: yup.string().required("Email is required!").email("Invalid email"),
+    password: yup.string().required("Password is required!").min(8),
+  }),
+});
 
-async function handleLogin() {
-  await authStore.signIn(values.value);
-}
+const handleLogin = handleSubmit(async () => {
+  if (meta.value.valid) {
+    await authStore.signIn(values);
+  }
+});
 </script>
 
 <style></style>
