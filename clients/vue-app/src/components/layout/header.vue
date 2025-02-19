@@ -1,6 +1,6 @@
 <template>
-  <header :class="['h-16 ', themeColor]">
-    <Container class="flex justify-between items-center h-full pl-2">
+  <header :class="['h-16  z-10', themeColor]">
+    <Container class="flex justify-between items-center h-full pl-2 relative">
       <div class="flex items-center gap-2">
         <button @click="onToggle" class="p-2">
           <Icon :icon="Menu" />

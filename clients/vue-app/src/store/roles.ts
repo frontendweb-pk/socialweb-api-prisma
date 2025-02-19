@@ -69,6 +69,7 @@ export const useRolesStore = defineStore('roles', () => {
   };
 
   const createRole = async (role: Role) => {
+    loading.value = true;
     try {
       const response = await axiosInstance.post('/api/role', role);
       roles.value.push(response.data);
@@ -76,6 +77,8 @@ export const useRolesStore = defineStore('roles', () => {
     } catch (error) {
       console.error(error);
       toast.error((error as Error).message);
+    } finally {
+      loading.value = false;
     }
   };
 

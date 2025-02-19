@@ -3,7 +3,7 @@ export const adminRoutes = {
   name: 'admin',
   redirect: '/admin/dashboard',
   meta: { requiresAuth: true },
-  component: () => import('@/components/layout/admin/AdminLayout.vue'),
+  component: () => import('@/pages/admin/layout.vue'),
   children: [
     {
       path: 'dashboard',
@@ -34,7 +34,7 @@ export const adminRoutes = {
     {
       path: 'permission',
       name: 'permission',
-      component: () => import('@/pages/admin/permission/permission.vue'),
+      component: () => import('@/pages/admin/permission/page.vue'),
     },
     {
       path: 'users',

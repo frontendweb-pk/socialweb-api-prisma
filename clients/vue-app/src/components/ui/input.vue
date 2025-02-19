@@ -15,7 +15,7 @@
       <input
         v-bind="$attrs"
         v-on="validationListeners"
-        class="outline-none p-2 bg-transparent"
+        class="outline-none w-full p-2 bg-transparent"
         :value="value"
         :type="type"
         :name="name"

@@ -4,30 +4,35 @@
       color="danger"
       size="sm"
       @click="$emit('delete')"
-      v-bind="$attrs">
+      v-bind="$attrs"
+    >
       <Icon :icon="TrashIcon" class="text-rose-600" />
     </IconButton>
     <IconButton @click="$emit('edit')" v-bind="$attrs">
       <Icon :icon="EditIcon" />
     </IconButton>
-    <RouterLink to="/" v-bind="$attrs" color="base"> Permissions </RouterLink>
+    <RouterLink :to="'admin/role/permission'" v-bind="$attrs" color="base">
+      Permissions
+    </RouterLink>
   </div>
 </template>
 
 <script setup lang="ts">
-import IconButton from "@/components/ui/icon-button.vue";
-import Icon from "@/components/ui/icon.vue";
-import type { Role } from "@/lib/types";
-import { EditIcon, TrashIcon } from "lucide-vue-next";
+  import { EditIcon, TrashIcon } from 'lucide-vue-next';
 
-defineOptions({
-  inheritAttrs: false,
-});
+  import IconButton from '@/components/ui/icon-button.vue';
+  import Icon from '@/components/ui/icon.vue';
 
-defineProps<{
-  role: Role;
-  column: string;
-}>();
+  import type { Role } from '@/lib/types';
 
-defineEmits(["edit", "permissions", "delete"]);
+  defineOptions({
+    inheritAttrs: false,
+  });
+
+  defineProps<{
+    role: Role;
+    column: string;
+  }>();
+
+  defineEmits(['edit', 'permissions', 'delete']);
 </script>

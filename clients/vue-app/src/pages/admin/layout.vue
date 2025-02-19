@@ -7,7 +7,7 @@
     ]"
   >
     <Header />
-    <main class="flex-1 p-4">
+    <main class="flex-1 px-6 py-6 bg-gray-50 z-0 relative">
       <RouterView />
     </main>
     <Footer />
@@ -16,11 +16,12 @@
 <script setup lang="ts">
   import { computed } from 'vue';
 
+  import Footer from '@/components/layout/footer.vue';
+  import Header from '@/components/layout/header.vue';
+
   import { useLayoutStore } from '@/store/layout';
 
-  import Footer from '../footer.vue';
-  import Header from '../header.vue';
-  import AdminSidebar from './AdminSidebar.vue';
+  import AdminSidebar from './admin-sidebar.vue';
 
   // layout store
   const layoutStore = useLayoutStore();

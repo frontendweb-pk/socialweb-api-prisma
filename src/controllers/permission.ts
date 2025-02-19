@@ -1,6 +1,7 @@
-import { Request, Response, NextFunction } from "express";
-import prisma from "../lib/prisma-client";
+import { NextFunction, Request, Response } from "express";
+
 import { BadRequestError } from "../lib/errors";
+import prisma from "../lib/prisma-client";
 
 /**
  * Get all permissions
@@ -11,7 +12,7 @@ import { BadRequestError } from "../lib/errors";
 export const getAllPermission = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const permissions = await prisma.permission.findMany();
@@ -30,7 +31,7 @@ export const getAllPermission = async (
 export const createPermission = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const { permission } = req.body;
@@ -56,7 +57,7 @@ export const createPermission = async (
 export const deletePermission = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const { permission_id } = req.params;
 

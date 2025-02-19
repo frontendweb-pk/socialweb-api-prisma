@@ -1,5 +1,5 @@
 <template>
-  <Form @submit.prevent="onSumit">
+  <Form @submit.prevent="onSubmit">
     <Input
       v-focus
       label="Role name"
@@ -41,7 +41,7 @@
     validationSchema: schema,
   });
 
-  const onSumit = handleSubmit(async (values) => {
+  const onSubmit = handleSubmit(async (values) => {
     if (!meta.value.valid) return;
     if (props.data) {
       roleStore.updateRole({ role_id: props.data.role_id, ...values });
