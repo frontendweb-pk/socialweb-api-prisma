@@ -6,6 +6,7 @@
     <slot>Submit</slot>
   </button>
 </template>
+
 <script setup lang="ts">
 import { computed, type ButtonHTMLAttributes } from "vue";
 
@@ -22,25 +23,24 @@ const props = withDefaults(
     type: "button",
   },
 );
-
 const classes = {
-  base: "p-2 bg-gray-300 text-indigo-950 hover:text-white hover:text-white rounded-md",
-  primary: "bg-indigo-950 text-white hover:bg-indigo-900",
-  secondary: "bg-gray-950 text-white",
-  danger: "bg-red-950 text-white",
-  warning: "bg-yellow-950 text-white",
-  success: "bg-green-950 text-white",
-  info: "bg-blue-950 text-white",
-  light: "bg-gray-100 text-black",
-  dark: "bg-gray-950 text-white",
+  base: "text-gray-300 text-indigo-950 hover: hover:text-white rounded-md",
+  primary: "text-indigo-950 text-white hover:text-indigo-900",
+  secondary: "text-gray-950 text-white",
+  danger: "text-rose-500",
+  warning: "text-yellow-950 ",
+  success: "text-green-950 ",
+  info: "text-blue-950 ",
+  light: "text-gray-100 text-black",
+  dark: "text-gray-950 ",
   link: "text-blue-950 underline",
-  disabled: "bg-gray-300 text-gray-600 cursor-not-allowed",
+  disabled: "text-gray-300 text-gray-600 cursor-not-allowed",
 };
 
 const sizes = {
-  sm: "py-1 px-2 min-w-10",
-  md: "py-1.5 px-2 min-w-20",
-  lg: "py-2 px-4 min-w-30",
+  sm: "py-1 px-2",
+  md: "py-2 px-3",
+  lg: "py-3 px-4",
   xl: "py-4 px-5",
   "2xl": "py-5 px-6",
   "3xl": "py-6 px-7",

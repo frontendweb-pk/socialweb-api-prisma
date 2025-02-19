@@ -9,6 +9,7 @@ import Button from "@/components/ui/button.vue";
 import Form from "@/components/ui/form.vue";
 import Input from "@/components/ui/input.vue";
 import type { Role } from "@/lib/types";
+import { useRolesStore } from "@/store/roles";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 
@@ -19,6 +20,9 @@ const props = defineProps<{
 
 // emits
 const emit = defineEmits(["close"]);
+
+// role store
+const roleStore = useRolesStore();
 
 const schema = yup.object({
   role_name: yup.string().required("Role name is requried!"),
@@ -32,9 +36,9 @@ const { handleSubmit, meta } = useForm({
 const onSumit = handleSubmit(async (values) => {
   if (!meta.value.valid) return;
   if (props.data) {
-    console.log("update role", values);
+    roleStore.updateRole({ role_id: props.data.role_id, ...values });
   } else {
-    console.log("create role", values);
+    roleStore.createRole(values);
   }
   emit("close");
 });

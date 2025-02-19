@@ -5,7 +5,11 @@
 
   <DataTable :data="roleStore.roles" :columns="columns">
     <template v-slot:[action]="{ row }">
-      <RoleAction @edit="handleRoleEdit(row)" :role="row" column="action" />
+      <RoleAction
+        @delete="handleDelete(row)"
+        @edit="handleRoleEdit(row)"
+        :role="row"
+        column="action" />
     </template>
   </DataTable>
 
@@ -22,6 +26,7 @@ import Modal from "@/components/ui/modal.vue";
 import PageTitle from "@/components/ui/page-title.vue";
 import { useToggle } from "@/hooks/useToggle";
 import type { TableColumns } from "@/lib/types";
+import { useConfirmStore } from "@/store/confirmation";
 import type { Role } from "@/store/roles";
 import { useRolesStore } from "@/store/roles";
 import { computed, ref } from "vue";
@@ -44,6 +49,7 @@ const modalTitle = computed(() =>
 
 // role store
 const roleStore = useRolesStore();
+const confirmStore = useConfirmStore();
 
 // columns
 type keys = keyof Role;
@@ -58,6 +64,7 @@ const columns: TableColumns<Role, keys>[] = [
 
 // edit role
 const handleRoleEdit = (role: Role) => {
+  console.log(role, "role");
   editRoleData.value = { ...role };
   handleOpen();
 };
@@ -65,6 +72,14 @@ const handleRoleEdit = (role: Role) => {
 const onClose = () => {
   handleClose();
   editRoleData.value = null;
+};
+
+const handleDelete = (role: Role) => {
+  confirmStore.handleConfirm({
+    title: "Delete Role",
+    message: `Are you sure you want to delete ${role.role_name} role?`,
+    onConfirm: async () => await roleStore.deleteRole(role.role_id!),
+  });
 };
 </script>
 

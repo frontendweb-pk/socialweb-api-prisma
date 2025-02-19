@@ -27,17 +27,19 @@ export const useRolesStore = defineStore("roles", () => {
 
   const fetchRole = async (role_id: number) => {
     try {
-      const response = await axiosInstance.get("/api/roles/" + role_id);
+      const response = await axiosInstance.get("/api/role/" + role_id);
       roles.value = response.data;
     } catch (error) {
       console.error(error);
       toast.error((error as Error).message);
     }
   };
+
   const createRole = async (role: Role) => {
     try {
-      const response = await axiosInstance.post("/api/roles", role);
+      const response = await axiosInstance.post("/api/role", role);
       roles.value.push(response.data);
+      toast.success("Role created successfully");
     } catch (error) {
       console.error(error);
       toast.error((error as Error).message);
@@ -46,19 +48,20 @@ export const useRolesStore = defineStore("roles", () => {
   const updateRole = async (role: Role) => {
     try {
       const response = await axiosInstance.put(
-        "/api/roles/" + role.role_id,
-        role
+        "/api/role/" + role.role_id,
+        role,
       );
-      roles.value = response.data;
+      const rolIndex = roles.value.findIndex((r) => r.role_id === role.role_id);
+      roles.value[rolIndex] = response.data;
+      toast.success("Role updated successfully");
     } catch (error) {
-      console.error(error);
       toast.error((error as Error).message);
     }
   };
   const deleteRole = async (role_id: number) => {
     try {
-      const response = await axiosInstance.delete("/api/roles/" + role_id);
-      roles.value = response.data;
+      await axiosInstance.delete("/api/role/" + role_id);
+      toast.success("Role deleted successfully");
     } catch (error) {
       console.error(error);
       toast.error((error as Error).message);
