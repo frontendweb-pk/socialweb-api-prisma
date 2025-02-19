@@ -1,11 +1,11 @@
 import axiosInstance from "@/axios-instance";
 import type { IUser } from "@/lib/types";
+import { decodeToken } from "@/utils/decode-token";
+import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useLocalStorage } from "@vueuse/core";
 import { toast } from "vue3-toastify";
-import { decodeToken } from "@/utils/decode-token";
 
 interface AuthState {
   isAuth: boolean;
@@ -31,8 +31,8 @@ export const useAuthStore = defineStore("auth", () => {
           read: (value) => JSON.parse(value),
           write: (value) => JSON.stringify(value),
         },
-      }
-    )
+      },
+    ),
   );
 
   // extract data from store
@@ -120,7 +120,9 @@ export const useAuthStore = defineStore("auth", () => {
     }
   };
 
-  const signUp = async (email: string, password: string) => {};
+  const signUp = async (email: string, password: string) => {
+    console.log(email, password);
+  };
 
   return {
     isLoggedIn,

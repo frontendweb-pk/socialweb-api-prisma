@@ -1,12 +1,12 @@
+import { useAuthStore } from "@/store/auth";
 import {
   createRouter,
   createWebHistory,
   type RouteRecordRaw,
 } from "vue-router";
+import { adminRoutes } from "./admin-routes";
 import { authRoutes } from "./auth-routes";
 import { publicRoutes } from "./public-routes";
-import { adminRoutes } from "./admin-routes";
-import { useAuthStore } from "@/store";
 
 const routes: RouteRecordRaw[] = [publicRoutes, authRoutes, adminRoutes];
 

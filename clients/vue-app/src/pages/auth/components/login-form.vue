@@ -18,10 +18,10 @@
 </template>
 
 <script lang="ts" setup>
-import Input from "@/components/ui/input.vue";
-import Form from "@/components/ui/form.vue";
 import Button from "@/components/ui/button.vue";
-import { useAuthStore } from "@/store";
+import Form from "@/components/ui/form.vue";
+import Input from "@/components/ui/input.vue";
+import { useAuthStore } from "@/store/auth";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 

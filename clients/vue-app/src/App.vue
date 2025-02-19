@@ -1,15 +1,15 @@
 <script setup lang="ts">
+import { useAuthStore } from "@/store/auth";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useAuthStore } from "./store";
 import PageLoader from "./components/ui/page-loader.vue";
 
 // current route
-const route = useRoute()
-console.log(route.meta)
-const router = useRouter()
+const route = useRoute();
+console.log(route.meta);
+const router = useRouter();
 
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 // transition
 onMounted(() => {
   authStore.checkAuth();
@@ -19,16 +19,21 @@ onMounted(() => {
 const pageLoaderRef = ref<InstanceType<typeof PageLoader> | null>(null);
 onMounted(() => {
   router.beforeEach((_, __, next) => {
-    pageLoaderRef.value?.startLoading(); next();
+    pageLoaderRef.value?.startLoading();
+    next();
   });
-  router.afterEach(() => { pageLoaderRef.value?.stopLoading(); });
+  router.afterEach(() => {
+    pageLoaderRef.value?.stopLoading();
+  });
 });
 </script>
 
 <template>
   <PageLoader ref="pageLoaderRef" />
   <RouterView v-slot="{ Component, route }">
-    <Transition :name="route.meta.transition as string || 'fade'" mode="out-in">
+    <Transition
+      :name="(route.meta.transition as string) || 'fade'"
+      mode="out-in">
       <Component :is="Component" />
     </Transition>
   </RouterView>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useAuthStore } from "./store";
+import { useAuthStore } from "./store/auth";
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -29,7 +29,7 @@ axiosInstance.interceptors.response.use(
       console.error(
         "Response Error:",
         error.response.status,
-        error.response.data
+        error.response.data,
       );
 
       // Example: Handle specific error codes
@@ -54,7 +54,7 @@ axiosInstance.interceptors.response.use(
     }
 
     return Promise.reject(error); // Re-reject the error so the caller can handle it
-  }
+  },
 );
 
 export default axiosInstance;
