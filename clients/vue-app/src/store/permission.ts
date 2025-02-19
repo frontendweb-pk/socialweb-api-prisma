@@ -19,7 +19,7 @@ export const usePermissionStore = defineStore('permission', () => {
   const fetchPermissions = async () => {
     loading.value = true;
     try {
-      const response = await axiosInstance.get('/api/permissions');
+      const response = await axiosInstance.get('/api/permission/all');
       const data = response.data as Permission[];
       permissions.value = data;
     } catch (error) {

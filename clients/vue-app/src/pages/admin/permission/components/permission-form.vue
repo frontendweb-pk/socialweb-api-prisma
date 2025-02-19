@@ -1,5 +1,12 @@
 <template>
   <Form @submit.prevent="onSubmit">
+    <CustomSelect
+      placeholder="Select api route"
+      label="Api"
+      :options="routes"
+      name="route"
+      :get-option-label="selectOption"
+    />
     <Input
       v-focus
       label="Permission"
@@ -10,10 +17,13 @@
   </Form>
 </template>
 <script setup lang="ts">
+  import { routes } from '@/constants';
   import { useForm } from 'vee-validate';
   import * as yup from 'yup';
 
   import Button from '@/components/ui/button.vue';
+  import CustomSelect from '@/components/ui/custom-select.vue';
+  import Form from '@/components/ui/form.vue';
   import Input from '@/components/ui/input.vue';
 
   import { usePermissionStore } from '@/store/permission';
@@ -26,25 +36,27 @@
 
   // schema
   const schema = yup.object({
-    permission: yup
-      .string()
-      .required('Permission is requried!')
-      .matches(
-        /^[a-z]+:[a-z]+$/,
-        'Permission should be in format route:action, ex: post:read',
-      ),
+    route: yup.string().required('Route is requried!'),
+    permission: yup.string().required('Permission is requried!'),
   });
 
   // form
   const { meta, handleSubmit } = useForm({
-    initialValues: { permission: '' },
+    initialValues: { route: 'post', permission: '' },
     validationSchema: schema,
   });
 
   // submit
   const onSubmit = handleSubmit(async (values) => {
-    if (!meta.value.valid || !values.permission.includes(':')) return;
-    permissionStore.createPermission(values);
+    if (!meta.value.valid) return;
+    permissionStore.createPermission({
+      permission: `${values.route}:${values.permission}`,
+    });
+    console.log('values', values);
     emit('close');
   });
+
+  const selectOption = (option: Record<keyof (typeof routes)[0], string>) => {
+    return option.title;
+  };
 </script>
