@@ -1,13 +1,11 @@
 model Role {
-    role_id     Int      @id @default(autoincrement())
-    role_name   String   @unique @db.VarChar(100)
-    permissions String[] @db.VarChar(100)
-    active      Boolean  @default(true)
-    created_at  DateTime @default(now())
-    updated_at  DateTime @updatedAt
-
-    // relation
-    user User[]
+    role_id     Int              @id @default(autoincrement())
+    role_name   String           @unique @db.VarChar(100)
+    active      Boolean          @default(true)
+    user        User[]
+    permissions RolePermission[]
+    created_at  DateTime         @default(now())
+    updated_at  DateTime         @updatedAt
 
     @@map("roles")
 }

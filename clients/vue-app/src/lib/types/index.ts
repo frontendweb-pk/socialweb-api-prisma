@@ -16,6 +16,7 @@ export type Size =
   | '8xl'
   | '9xl'
   | '10xl';
+
 export type Theme = 'light' | 'dark';
 export type Menu = {
   name: string;
@@ -23,17 +24,19 @@ export type Menu = {
   href: string;
   children?: Menu[];
 };
-export interface IPermission {
-  permission_id: number;
+export type Permission = {
+  permission_id?: number;
   permission: string;
-}
+  action?: string;
+};
+
 export interface Role {
   role_id?: number;
   role_name: string;
   created_at?: string;
   updated_at?: string;
   active?: boolean;
-  permissions?: string[];
+  permissions?: Permission[];
 }
 
 export interface IUser {
@@ -45,7 +48,7 @@ export interface IUser {
   refresh_token: string;
   role_id: number;
   role: Role;
-  permissions: IPermission[];
+  permissions: Permission[];
 }
 
 export interface TableData<T, K extends keyof T> {

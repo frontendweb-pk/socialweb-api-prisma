@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<{
 })
 
 const container = computed(() => ({
-    'w-full': props.isFull,
+    'w-full px-3': props.isFull,
     'w-11/12': !props.isFull
 }))
 </script>

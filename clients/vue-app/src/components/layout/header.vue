@@ -1,6 +1,6 @@
 <template>
-  <header :class="['h-16  z-10', themeColor]">
-    <Container class="flex justify-between items-center h-full pl-2 relative">
+  <header :class="['h-16 z-10', themeColor]">
+    <Container :is-full="true" class="flex h-16 justify-between items-center relative">
       <div class="flex items-center gap-2">
         <button @click="onToggle" class="p-2">
           <Icon :icon="Menu" />
@@ -14,37 +14,37 @@
 </template>
 
 <script setup lang="ts">
-  import { Menu } from 'lucide-vue-next';
+import { Menu } from 'lucide-vue-next';
 
-  import { computed } from 'vue';
+import { computed } from 'vue';
 
-  import { useLayoutStore } from '@/store/layout';
+import { useLayoutStore } from '@/store/layout';
 
-  import type { Theme } from '@/lib/types';
+import type { Theme } from '@/lib/types';
 
-  import GlobalSearch from '../shared/global-search.vue';
-  import Container from '../ui/container.vue';
-  import Icon from '../ui/icon.vue';
-  import Logo from './logo.vue';
-  import Navbar from './navbar.vue';
+import GlobalSearch from '../shared/global-search.vue';
+import Container from '../ui/container.vue';
+import Icon from '../ui/icon.vue';
+import Logo from './logo.vue';
+import Navbar from './navbar.vue';
 
-  // props with defaults
-  const props = withDefaults(
-    defineProps<{
-      theme?: Theme;
-      type?: 'admin' | 'user';
-    }>(),
-    {
-      theme: 'light',
-    },
-  );
+// props with defaults
+const props = withDefaults(
+  defineProps<{
+    theme?: Theme;
+    type?: 'admin' | 'user';
+  }>(),
+  {
+    theme: 'light',
+  },
+);
 
-  // layout store
-  const { onToggle } = useLayoutStore();
+// layout store
+const { onToggle } = useLayoutStore();
 
-  // computed properties
-  const isDark = computed(() => props.theme === 'dark');
-  const themeColor = computed(() =>
-    isDark.value ? 'bg-indigo-950' : 'bg-white shadow ',
-  );
+// computed properties
+const isDark = computed(() => props.theme === 'dark');
+const themeColor = computed(() =>
+  isDark.value ? 'bg-indigo-950' : 'bg-white shadow ',
+);
 </script>

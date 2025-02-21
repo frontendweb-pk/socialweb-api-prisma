@@ -10,7 +10,7 @@ import { useRoute } from 'vue-router';
 import { dev } from '@/utils/dev';
 import { buildQueryString } from '@/utils/query-string';
 
-import type { QueryParams } from '@/lib/types';
+import type { Permission, QueryParams } from '@/lib/types';
 
 /**
  * Role interface
@@ -21,7 +21,7 @@ export type Role = {
   created_at?: string;
   updated_at?: string;
   active?: boolean;
-  permissions?: string[];
+  permissions?: Permission[];
   action?: string;
 };
 
@@ -113,7 +113,6 @@ export const useRolesStore = defineStore('roles', () => {
       currentPage.value = 1;
       const queryWithPage = { ...newQuery, page: currentPage.value.toString() };
       fetchRoles(queryWithPage);
-      // router.push({ query: queryWithPage }); // Simplified router push
     },
     { immediate: true },
   );

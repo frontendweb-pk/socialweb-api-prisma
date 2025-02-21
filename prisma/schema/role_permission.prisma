@@ -1,0 +1,10 @@
+model RolePermission {
+    role_id Int  @db.SmallInt
+    role    Role @relation(fields: [role_id], references: [role_id])
+
+    permission_id Int        @db.SmallInt
+    permission    Permission @relation(fields: [permission_id], references: [permission_id])
+
+    @@id([role_id, permission_id]) // Composite primary key (user_id + permission_id)
+    @@map("role_permissions")
+}

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { BadRequestError } from "../lib/errors";
 import prisma from "../lib/prisma-client";
+import { addPermissions } from "../services/permission";
 
 /**
  * Get all permissions
@@ -54,6 +55,32 @@ export const createPermission = async (
   }
 };
 
+/**
+ * Create permissions
+ * @param req
+ * @param res
+ * @param next
+ */
+
+export const createPermissions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const permissions = await addPermissions(req.body);
+    res.status(201).json(permissions);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Delete permission
+ * @param req
+ * @param res
+ * @param next
+ */
 export const deletePermission = async (
   req: Request,
   res: Response,

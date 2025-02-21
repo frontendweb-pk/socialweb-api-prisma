@@ -10,10 +10,8 @@ POST http://localhost:3000/api/role
 Content-Type: application/json
 
 {
-    "role_name":"admin",
-    "permissions":[
-         
-    ]
+    "role_name":"superadmin",
+    "permissions":["all:permission"]
 }
 
 ### Update role
